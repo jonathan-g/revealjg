@@ -79,7 +79,10 @@ revealjs_presentation <- function(incremental = FALSE,
                                   smart = TRUE,
                                   self_contained = TRUE,
                                   theme = "default",
+                                  custom_theme = NULL,
+                                  custom_theme_dark=FALSE,
                                   transition = "default",
+                                  custom_transition = NULL,
                                   highlight = "default",
                                   mathjax = "default",
                                   template = "default",
@@ -92,7 +95,7 @@ revealjs_presentation <- function(incremental = FALSE,
   # function to lookup reveal resource
   reveal_resources <- function() {
     system.file("rmarkdown/templates/revealjs_presentation",
-                package = "revealjs")
+                package = "revealjs_jg")
   }
   
   # base pandoc options for all reveal.js output
@@ -115,17 +118,39 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # theme
   theme <- match.arg(theme, revealjs_themes())
-  if (identical(theme, "default"))
-    theme <- "simple"
-  else if (identical(theme, "dark"))
-    theme <- "default"
-  if (theme %in% c("default", "blood", "moon", "night"))
+  theme_dark <- FALSE
+  if (identical(theme, "custom")) {
+    if (is.null(custom_theme)) 
+    {
+      stop("Missing custom_theme in YAML header")
+    } else {
+      theme <- custom_theme
+      theme_dark <- custom_theme_dark
+    }
+  } else {
+    if (identical(theme, "default"))
+      theme <- "simple"
+    else if (identical(theme, "dark"))
+      theme <- "black"
+    if (theme %in% c("black", "blood", "moon", "night"))
+      theme_dark <- TRUE
+  }
+  if (theme_dark) {
     args <- c(args, "--variable", "theme-dark")
+  }
   args <- c(args, "--variable", paste("theme=", theme, sep=""))
   
   
   # transition
   transition <- match.arg(transition, revealjs_transitions())
+  if (identical(transition, "custom")) {
+    if (is.null(custom_transition)) {
+      stop("Missing custom_transition in YAML header")
+    }
+    else {
+      transition <- custom_transition
+    }
+  }
   args <- c(args, "--variable", paste("transition=", transition, sep=""))
   
   # content includes
@@ -176,16 +201,18 @@ revealjs_presentation <- function(incremental = FALSE,
 }
 
 revealjs_themes <- function() {
-  c("default",
+  c("beige",
+    "black",
+    "blood",
+    "league",
+    "moon",
+    "night",
+    "serif",
     "simple",
     "sky",
-    "beige",
-    "serif",
     "solarized",
-    "dark",
-    "blood",
-    "moon",
-    "night")
+    "white",
+    "custom")
 }
 
 
@@ -197,7 +224,8 @@ revealjs_transitions <- function() {
     "zoom",
     "linear",
     "fade",
-    "none")
+    "none",
+    "custom")
 }
 
 

@@ -1,10 +1,10 @@
-Package: revealjs
+Package: revealjs_jg
 Type: Package
 Title: R Markdown format for revealjs presentations
 Version: 0.5
 Date: 2014-09-15
-Author: JJ Allaire
-Maintainer: JJ Allaire <jj@rstudio.com>
+Author: Jonathan Gilligan
+Maintainer: Jonathan Gilligan <jonathan.gilligan@gmail.com>
 Description: More about what it does (maybe more than one line)
 License: GPL-3
 Depends:
