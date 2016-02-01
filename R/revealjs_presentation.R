@@ -1,91 +1,82 @@
 #' Convert to a reveal.js presentation
-#'
+#' 
 #' Format for converting from R Markdown to a reveal.js presentation.
-#'
+#' 
 #' @inheritParams rmarkdown::beamer_presentation
 #' @inheritParams rmarkdown::pdf_document
 #' @inheritParams rmarkdown::html_document
-#'
+#'   
 #' @param center \code{TRUE} to vertically center content on slides
-#' @param theme Visual theme ("default", "simple", sky", "beige", "serif", or
-#'   "solarized").
-#' @param transition Slide transition ("default", "cube", "page", "concave",
-#'   "zoom", "linear", "fade", or "none")
-#' @param template Pandoc template to use for rendering. Pass "default"
-#'   to use the rmarkdown package default template; pass \code{NULL}
-#'   to use pandoc's built-in template; pass a path to use a custom template
-#'   that you've created. Note that if you don't use the "default" template
-#'   then some features of \code{revealjs_presentation} won't be available
-#'   (see the Templates section below for more details).
-#'
+#' @param slide_level Level of heading to denote individual slides. If
+#'   \code{slide_level} is 2 (the default), a two-dimensional layout will be
+#'   produced, with level 1 headers building horizontally and level 2 headers
+#'   building vertically. It is not recommended that you use deeper nesting of
+#'   section levels with reveal.js.
+#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
+#'   "blood", "moon", "night", "black", "league" or "white").
+#' @param transition Slide transition ("default", "none", "fade", "slide", 
+#'   "convex", "concave" or "zoom")
+#' @param background_transition Slide background-transition ("default", "none",
+#'   "fade", "slide", "convex", "concave" or "zoom")
+#' @param reveal_options Additional options to specify for reveal.js (see 
+#'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
+#'   for details).
+#' @param template Pandoc template to use for rendering. Pass "default" to use
+#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
+#'   built-in template; pass a path to use a custom template that you've
+#'   created. Note that if you don't use the "default" template then some
+#'   features of \code{revealjs_presentation} won't be available (see the
+#'   Templates section below for more details).
+#' @param ... Ignored
+#'   
 #' @return R Markdown output format to pass to \code{\link{render}}
-#'
+#'   
 #' @details
-#'
-#' In reveal.js presentations you can use level 1 or level 2 headers for
-#' slides. If you use a mix of level 1 and level 2 headers then a
-#' two-dimensional layout will be produced, with level 1 headers building
-#' horizontally and level 2 headers building vertically.
-#'
-#' For more information on markdown syntax for presentations see
-#' \href{http://johnmacfarlane.net/pandoc/demo/example9/producing-slide-shows-with-pandoc.html}{producing
-#' slide shows with pandoc}.
-#'
-#' @section Templates:
-#'
-#' You can provide a custom HTML template to be used for rendering. The syntax
-#' for templates is described in the documentation on
-#' \href{http://johnmacfarlane.net/pandoc/demo/example9/templates.html}{pandoc
-#' templates}. You can also use the basic pandoc template by passing
-#' \code{template = NULL}.
-#'
-#' Note however that if you choose not to use the "default" reveal.js template
-#' then several aspects of reveal.js presentation rendering will behave
-#' differently:
-#'
-#' \itemize{
-#'   \item{The \code{center} parameter does not work (you'd need to
-#'      set this directly in the template).
-#'   }
-#'   \item{The built-in template includes some additional tweaks to styles
-#'      to optimize for output from R, these won't be present.
-#'   }
-#'   \item{MathJax will not work if \code{self_contained} is \code{TRUE}
-#'      (these two options can't be used together in normal pandoc templates).
-#'   }
-#' }
-#'
+#' 
+#' In reveal.js presentations you can use level 1 or level 2 headers for slides.
+#' If you use a mix of level 1 and level 2 headers then a two-dimensional layout
+#' will be produced, with level 1 headers building horizontally and level 2
+#' headers building vertically.
+#' 
+#' For additional documentation on using revealjs presentations see
+#' \href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
+#'   
 #' @examples
 #' \dontrun{
-#'
+#' 
 #' library(rmarkdown)
 #' library(revealjs)
-#'
+#' 
 #' # simple invocation
 #' render("pres.Rmd", revealjs_presentation())
-#'
+#' 
 #' # specify an option for incremental rendering
 #' render("pres.Rmd", revealjs_presentation(incremental = TRUE))
 #' }
-#'
-#'
+#' 
+#' 
 #' @export
 revealjs_presentation <- function(incremental = FALSE,
                                   center = FALSE,
+                                  slide_level = 2,
                                   fig_width = 8,
                                   fig_height = 6,
                                   fig_retina = if (!fig_caption) 2,
                                   fig_caption = FALSE,
                                   smart = TRUE,
                                   self_contained = TRUE,
-                                  theme = "default",
+                                  theme = "simple",
                                   custom_theme = NULL,
                                   custom_theme_dark=FALSE,
                                   transition = "default",
                                   custom_transition = NULL,
+                                  background_transition = "default",
+                                  custom_background_transition = NULL,
+                                  reveal_options = NULL,
                                   highlight = "default",
                                   mathjax = "default",
                                   template = "default",
+                                  css = NULL,
                                   includes = NULL,
                                   keep_md = FALSE,
                                   lib_dir = NULL,
@@ -94,7 +85,7 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # function to lookup reveal resource
   reveal_resources <- function() {
-    system.file("rmarkdown/templates/revealjs_presentation",
+    system.file("rmarkdown/templates/revealjs_presentation/resources",
                 package = "revealjs_jg")
   }
   
@@ -102,19 +93,26 @@ revealjs_presentation <- function(incremental = FALSE,
   args <- c()
   
   # template path and assets
-  if (identical(template, "default"))
-    args <- c(args, "--template",
-              pandoc_path_arg(file.path(reveal_resources(), "default.html")))
-  else if (!is.null(template))
+  if (identical(template, "default")) {
+    default_template <- system.file(
+      "rmarkdown/templates/revealjs_presentation/resources/default.html",
+      package = "revealjs"
+    )
+    args <- c(args, "--template", pandoc_path_arg(default_template))
+  } else if (!is.null(template)) {
     args <- c(args, "--template", pandoc_path_arg(template))
+  }
   
   # incremental
   if (incremental)
     args <- c(args, "--incremental")
   
   # centering
-  if (center)
-    args <- c(args, "--variable", "center")
+  jsbool <- function(value) ifelse(value, "true", "false")
+  args <- c(args, pandoc_variable_arg("center", jsbool(center)))
+  
+  # slide level
+  args <- c(args, "--slide-level", "2")
   
   # theme
   theme <- match.arg(theme, revealjs_themes())
@@ -153,13 +151,37 @@ revealjs_presentation <- function(incremental = FALSE,
   }
   args <- c(args, "--variable", paste("transition=", transition, sep=""))
   
+  # background_transition
+  background_transition <- match.arg(background_transition, revealjs_transitions())
+  args <- c(args, "--variable", paste("backgroundTransition=", background_transition, sep=""))
+  
+  # additional reveal options
+  if (is.list(reveal_options)) {
+    for (option in names(reveal_options)) {
+      value <- reveal_options[[option]]
+      if (is.logical(value))
+        value <- jsbool(value)
+      args <- c(args, pandoc_variable_arg(option, value))
+    }
+  }
+  
   # content includes
   args <- c(args, includes_to_pandoc_args(includes))
+  
+  # additional css
+  for (css_file in css)
+    args <- c(args, "--css", pandoc_path_arg(css_file))
   
   # pre-processor for arguments that may depend on the name of the
   # the input file (e.g. ones that need to copy supporting files)
   pre_processor <- function(metadata, input_file, runtime, knit_meta, files_dir,
                             output_dir) {
+    
+    # we don't work with runtime shiny
+    if (identical(runtime, "shiny")) {
+      stop("revealjs_presentation is not compatible with runtime 'shiny'", 
+           call. = FALSE)
+    }
     
     # use files_dir as lib_dir if not explicitly specified
     if (is.null(lib_dir))
@@ -169,7 +191,7 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- reveal_resources()
+    revealjs_path <- system.file("reveal.js-3.2.0", package = "revealjs")
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
@@ -201,7 +223,9 @@ revealjs_presentation <- function(incremental = FALSE,
 }
 
 revealjs_themes <- function() {
-  c("beige",
+  c("default",
+    "dark",
+    "beige",
     "black",
     "blood",
     "league",
@@ -217,15 +241,16 @@ revealjs_themes <- function() {
 
 
 revealjs_transitions <- function() {
-  c("default",
-    "cube",
-    "page",
+  c(
+    "default",
+    "none",
+    "fade",
+    "slide",
+    "convex",
     "concave",
     "zoom",
-    "linear",
-    "fade",
-    "none",
-    "custom")
+    "custom"
+    )
 }
 
 
