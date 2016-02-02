@@ -39,13 +39,13 @@
 #' headers building vertically.
 #' 
 #' For additional documentation on using revealjs presentations see
-#' \href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
+#' \href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
 #'   
 #' @examples
 #' \dontrun{
 #' 
 #' library(rmarkdown)
-#' library(revealjs)
+#' library(revealjs.jg)
 #' 
 #' # simple invocation
 #' render("pres.Rmd", revealjs_presentation())
@@ -86,7 +86,7 @@ revealjs_presentation <- function(incremental = FALSE,
   # function to lookup reveal resource
   reveal_resources <- function() {
     system.file("rmarkdown/templates/revealjs_presentation/resources",
-                package = "revealjs_jg")
+                package = "revealjs.jg")
   }
   
   # base pandoc options for all reveal.js output
@@ -96,7 +96,7 @@ revealjs_presentation <- function(incremental = FALSE,
   if (identical(template, "default")) {
     default_template <- system.file(
       "rmarkdown/templates/revealjs_presentation/resources/default.html",
-      package = "revealjs"
+      package = "revealjs.jg"
     )
     args <- c(args, "--template", pandoc_path_arg(default_template))
   } else if (!is.null(template)) {
@@ -191,7 +191,7 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- system.file("reveal.js-3.2.0", package = "revealjs")
+    revealjs_path <- system.file("reveal.js-3.2.0", package = "revealjs.jg")
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))

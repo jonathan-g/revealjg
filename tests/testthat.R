@@ -1,4 +1,4 @@
 library(testthat)
-library(revealjs)
+library(revealjs.jg)
 
-test_check("revealjs")
+test_check("revealjs.jg")

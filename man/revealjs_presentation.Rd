@@ -7,8 +7,10 @@
 revealjs_presentation(incremental = FALSE, center = FALSE,
   slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
   (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
-  self_contained = TRUE, theme = "simple", transition = "default",
-  background_transition = "default", reveal_options = NULL,
+  self_contained = TRUE, theme = "simple", custom_theme = NULL,
+  custom_theme_dark = FALSE, transition = "default",
+  custom_transition = NULL, background_transition = "default",
+  custom_background_transition = NULL, reveal_options = NULL,
   highlight = "default", mathjax = "default", template = "default",
   css = NULL, includes = NULL, keep_md = FALSE, lib_dir = NULL,
   pandoc_args = NULL, ...)
@@ -46,9 +48,9 @@ ellipses.}
 
 \item{self_contained}{Produce a standalone HTML file with no external
 dependencies, using data: URIs to incorporate the contents of linked
-scripts, stylesheets, images, and videos. Note that even for self contained
-documents MathJax is still loaded externally (this is necessary because of
-it's size).}
+scripts, stylesheets, images, and videos. Note that even for self
+contained documents MathJax is still loaded externally (this is
+necessary because of it's size).}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}
@@ -107,13 +109,13 @@ will be produced, with level 1 headers building horizontally and level 2
 headers building vertically.
 
 For additional documentation on using revealjs presentations see
-\href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
+\href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
 }
 \examples{
 \dontrun{
 
 library(rmarkdown)
-library(revealjs)
+library(revealjs.jg)
 
 # simple invocation
 render("pres.Rmd", revealjs_presentation())

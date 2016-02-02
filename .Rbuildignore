@@ -2,5 +2,7 @@
 ^\.Rproj\.user$
 README.*
 examples/
-
-
+^inst/old_rmarkdown$
+^inst.*/node_modules$
+.*[.]bak$
+[.]git/
