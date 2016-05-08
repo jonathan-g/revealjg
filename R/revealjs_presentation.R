@@ -112,7 +112,7 @@ revealjs_presentation <- function(incremental = FALSE,
   args <- c(args, pandoc_variable_arg("center", jsbool(center)))
   
   # slide level
-  args <- c(args, "--slide-level", "2")
+  args <- c(args, "--slide-level", as.character(slide_level))
   
   # theme
   theme <- match.arg(theme, revealjs_themes())
@@ -154,6 +154,9 @@ revealjs_presentation <- function(incremental = FALSE,
   # background_transition
   background_transition <- match.arg(background_transition, revealjs_transitions())
   args <- c(args, "--variable", paste("backgroundTransition=", background_transition, sep=""))
+  
+  # use history
+  args <- c(args, pandoc_variable_arg("history", "true"))
   
   # additional reveal options
   if (is.list(reveal_options)) {
