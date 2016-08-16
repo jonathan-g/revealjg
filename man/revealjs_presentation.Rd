@@ -7,15 +7,14 @@
 revealjs_presentation(incremental = FALSE, center = FALSE,
   slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
   (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
-  self_contained = TRUE, theme = "simple", 
-  custom_theme = NULL, custom_theme_dark = FALSE,
-  transition = "default",
-  custom_transition = NULL,
-  background_transition = "default", 
-  custom_background_transition = NULL,  history = TRUE,
-  reveal_options = NULL, highlight = "default", mathjax = "default",
-  template = "default", css = NULL, includes = NULL, keep_md = FALSE,
-  lib_dir = NULL, pandoc_args = NULL, ...)
+  self_contained = TRUE, theme = "simple", custom_theme = NULL,
+  custom_theme_dark = FALSE, transition = "default",
+  custom_transition = NULL, background_transition = "default",
+  custom_background_transition = NULL, reveal_options = NULL,
+  reveal_plugins = NULL, reveal_version = "3.3.0", reveal_location = NULL,
+  highlight = "default", mathjax = "default", template = "default",
+  css = NULL, includes = NULL, keep_md = FALSE, lib_dir = NULL,
+  pandoc_args = NULL, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -49,18 +48,28 @@ ellipses.}
 
 \item{self_contained}{Produce a standalone HTML file with no external
 dependencies, using data: URIs to incorporate the contents of linked
-scripts, stylesheets, images, and videos. Note that even for self
-contained documents MathJax is still loaded externally (this is
-necessary because of it's size).}
+scripts, stylesheets, images, and videos. Note that even for self contained
+documents MathJax is still loaded externally (this is necessary because of
+it's size).}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}
 
+\item{custom_theme}{Custom theme, not included in reveal.js distribution}
+
+\item{custom_theme_dark}{Does the custom theme use a dark-mode?}
+
 \item{transition}{Slide transition ("default", "none", "fade", "slide", 
 "convex", "concave" or "zoom")}
 
+\item{custom_transition}{Custom slide transition, not included in reveal.js
+distribuion.}
+
 \item{background_transition}{Slide background-transition ("default", "none",
 "fade", "slide", "convex", "concave" or "zoom")}
+
+\item{custom_background_transition}{Custom background-transition, not 
+included in reveal.js distribuion.}
 
 \item{reveal_options}{Additional options to specify for reveal.js (see 
 \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
@@ -69,6 +78,12 @@ for details).}
 \item{reveal_plugins}{Reveal plugins to include. Available plugins include "notes", 
 "search", and "zoom". Note that \code{self_contained} must be set to 
 \code{FALSE} in order to use Reveal plugins.}
+
+\item{reveal_version}{Version of reveal.js to use.}
+
+\item{reveal_location}{Location to search for reveal.js (Expects to find 
+reveal.js distribution at 
+\code{file.path(reveal_location, paste0('revealjs-', reveal_version))}}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
 "default", "tango", "pygments", "kate", "monochrome", "espresso",

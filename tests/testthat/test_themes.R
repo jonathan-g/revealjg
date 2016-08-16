@@ -2,9 +2,9 @@
 context("Themes")
 
 test_theme <- function(theme) {
-
+  if(identical(theme, "custom"))
+    return(NULL)
   test_that(paste(theme, "theme"), {
-
     # don't run on cran because pandoc is required
     skip_on_cran()
 

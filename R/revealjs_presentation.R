@@ -14,16 +14,26 @@
 #'   section levels with reveal.js.
 #' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
 #'   "blood", "moon", "night", "black", "league" or "white").
+#' @param custom_theme Custom theme, not included in reveal.js distribution
+#' @param custom_theme_dark Does the custom theme use a dark-mode?
 #' @param transition Slide transition ("default", "none", "fade", "slide", 
 #'   "convex", "concave" or "zoom")
+#' @param custom_transition Custom slide transition, not included in reveal.js
+#'   distribuion.
 #' @param background_transition Slide background-transition ("default", "none",
 #'   "fade", "slide", "convex", "concave" or "zoom")
+#' @param custom_background_transition Custom background-transition, not 
+#'   included in reveal.js distribuion.
 #' @param reveal_options Additional options to specify for reveal.js (see 
 #'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 #'   for details).
 #' @param reveal_plugins Reveal plugins to include. Available plugins include "notes", 
 #'   "search", and "zoom". Note that \code{self_contained} must be set to 
 #'   \code{FALSE} in order to use Reveal plugins.
+#' @param reveal_version Version of reveal.js to use.
+#' @param reveal_location Location to search for reveal.js (Expects to find 
+#' reveal.js distribution at 
+#' \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}
 #' @param template Pandoc template to use for rendering. Pass "default" to use
 #'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
 #'   built-in template; pass a path to use a custom template that you've
@@ -77,6 +87,8 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
+                                  reveal_version = "3.3.0",
+                                  reveal_location = NULL,
                                   highlight = "default",
                                   mathjax = "default",
                                   template = "default",
@@ -220,7 +232,12 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- system.file("reveal.js-3.3.0", package = "revealjs.jg")
+    reveal_home <- paste0("reveal.js-", reveal_version)
+    if (is.null(reveal_location)) {
+    revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
+    } else {
+      revealjs_path <- file.path(reveal_location, reveal_home)
+    }
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
