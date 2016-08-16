@@ -43,6 +43,7 @@
 #' @param custom_theme_path Path to custom theme css.
 #' @param custom_transition_path Path to custom transition css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
+#' @param tex_extensions LaTeX extensions for MathJax
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -97,6 +98,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   resource_location = "default",
                                   highlight = "default",
                                   mathjax = "default",
+                                  tex_extensions = NULL,
                                   template = "default",
                                   css = NULL,
                                   includes = NULL,
@@ -214,6 +216,13 @@ revealjs_presentation <- function(incremental = FALSE,
     })    
   }
   
+  # TeX extensions for MathJax
+  if (! is.null(tex_extensions)) {
+    args <- c(args, sapply(tex_extensions, function(ext) {
+      pandoc_variable_arg('tex-extensions', ext)
+      }))
+  }
+  
   # content includes
   args <- c(args, includes_to_pandoc_args(includes))
   
@@ -264,9 +273,10 @@ revealjs_presentation <- function(incremental = FALSE,
       custom_theme_path <- pandoc_path_arg(custom_theme_path)
       custom_transition_path <- pandoc_path_arg(custom_transition_path)
     }
-    args <- c(args, "--variable", paste0("revealjs-url=", revealjs_path),
-              "--variable", paste0("local-theme-url=", custom_theme_path),
-              "--variable", paste0("local-transition-url=", custom_transition_path))
+    args <- c(args, 
+              pandoc_variable_arg("revealjs-url", revealjs_path),
+              pandoc_variable_arg("local-theme-url", custom_theme_path),
+              pandoc_variable_arg("local-transition-url", custom_transition_path))
 
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))

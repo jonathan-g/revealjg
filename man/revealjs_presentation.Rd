@@ -14,9 +14,9 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   custom_background_transition = NULL, reveal_options = NULL,
   reveal_plugins = NULL, reveal_version = "3.3.0",
   reveal_location = "default", resource_location = "default",
-  highlight = "default", mathjax = "default", template = "default",
-  css = NULL, includes = NULL, keep_md = FALSE, lib_dir = NULL,
-  pandoc_args = NULL, ...)
+  highlight = "default", mathjax = "default", tex_extensions = NULL,
+  template = "default", css = NULL, includes = NULL, keep_md = FALSE,
+  lib_dir = NULL, pandoc_args = NULL, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -101,6 +101,8 @@ reveal.js distribution at
 the official MathJax CDN. The "local" option uses a local version of MathJax
 (which is copied into the output directory). You can pass an alternate URL
 or pass \code{NULL} to exclude MathJax entirely.}
+
+\item{tex_extensions}{LaTeX extensions for MathJax}
 
 \item{template}{Pandoc template to use for rendering. Pass "default" to use
 the rmarkdown package default template; pass \code{NULL} to use pandoc's
