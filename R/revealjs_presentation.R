@@ -122,9 +122,9 @@ revealjs_presentation <- function(incremental = FALSE,
   if (identical(template, "default")) {
     default_template <- file.path(reveal_resources(), "default.html")
     args <- c(args, "--template", pandoc_path_arg(default_template))
-  } else if (!is.null(template)) {
+  } else {
     args <- c(args, "--template",
-              pandoc_path_arg(file.path(reveal_resources, template)))
+              pandoc_path_arg(file.path(reveal_resources(), template)))
   }
   
   # incremental
