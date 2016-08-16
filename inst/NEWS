@@ -1,9 +1,15 @@
-Version 0.7 (unreleased)
+Version 0.7
 -----------------------------------------------------------------------
+
+- Update to reveal.js 3.3
 
 - Push slide changes to browser history
 
 - Respect slide_level option
+
+- Support for zoom, search, and notes reveal.js plugins
+
+- Ability to specify slideNumber reveal_option as either string or boolean
 
 
 Version 0.6
