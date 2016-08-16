@@ -8,10 +8,12 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
   (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
   self_contained = TRUE, theme = "simple", custom_theme = NULL,
-  custom_theme_dark = FALSE, transition = "default",
-  custom_transition = NULL, background_transition = "default",
+  custom_theme_dark = FALSE, custom_theme_path = NULL,
+  transition = "default", custom_transition = NULL,
+  custom_transition_path = NULL, background_transition = "default",
   custom_background_transition = NULL, reveal_options = NULL,
-  reveal_plugins = NULL, reveal_version = "3.3.0", reveal_location = NULL,
+  reveal_plugins = NULL, reveal_version = "3.3.0",
+  reveal_location = "default", resource_location = "default",
   highlight = "default", mathjax = "default", template = "default",
   css = NULL, includes = NULL, keep_md = FALSE, lib_dir = NULL,
   pandoc_args = NULL, ...)
@@ -59,11 +61,15 @@ it's size).}
 
 \item{custom_theme_dark}{Does the custom theme use a dark-mode?}
 
+\item{custom_theme_path}{Path to custom theme css.}
+
 \item{transition}{Slide transition ("default", "none", "fade", "slide", 
 "convex", "concave" or "zoom")}
 
 \item{custom_transition}{Custom slide transition, not included in reveal.js
 distribuion.}
+
+\item{custom_transition_path}{Path to custom transition css.}
 
 \item{background_transition}{Slide background-transition ("default", "none",
 "fade", "slide", "convex", "concave" or "zoom")}
@@ -84,6 +90,8 @@ for details).}
 \item{reveal_location}{Location to search for reveal.js (Expects to find 
 reveal.js distribution at 
 \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}}
+
+\item{resource_location}{Optional custom path to reveal.js templates and skeletons}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
 "default", "tango", "pygments", "kate", "monochrome", "espresso",

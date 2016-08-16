@@ -40,6 +40,9 @@
 #'   created. Note that if you don't use the "default" template then some
 #'   features of \code{revealjs_presentation} won't be available (see the
 #'   Templates section below for more details).
+#' @param custom_theme_path Path to custom theme css.
+#' @param custom_transition_path Path to custom transition css.
+#' @param resource_location Optional custom path to reveal.js templates and skeletons
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -81,14 +84,17 @@ revealjs_presentation <- function(incremental = FALSE,
                                   theme = "simple",
                                   custom_theme = NULL,
                                   custom_theme_dark=FALSE,
+                                  custom_theme_path=NULL,
                                   transition = "default",
                                   custom_transition = NULL,
+                                  custom_transition_path = NULL,
                                   background_transition = "default",
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
                                   reveal_version = "3.3.0",
-                                  reveal_location = NULL,
+                                  reveal_location = "default",
+                                  resource_location = "default",
                                   highlight = "default",
                                   mathjax = "default",
                                   template = "default",
@@ -101,8 +107,12 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # function to lookup reveal resource
   reveal_resources <- function() {
+    if(identical(resource_location, "default")) {
     system.file("rmarkdown/templates/revealjs_presentation/resources",
                 package = "revealjs.jg")
+    } else {
+      resource_location
+    }
   }
   
   # base pandoc options for all reveal.js output
@@ -110,13 +120,11 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # template path and assets
   if (identical(template, "default")) {
-    default_template <- system.file(
-      "rmarkdown/templates/revealjs_presentation/resources/default.html",
-      package = "revealjs.jg"
-    )
+    default_template <- file.path(reveal_resources(), "default.html")
     args <- c(args, "--template", pandoc_path_arg(default_template))
   } else if (!is.null(template)) {
-    args <- c(args, "--template", pandoc_path_arg(template))
+    args <- c(args, "--template",
+              pandoc_path_arg(file.path(reveal_resources, template)))
   }
   
   # incremental
@@ -233,18 +241,33 @@ revealjs_presentation <- function(incremental = FALSE,
     
     # reveal.js
     reveal_home <- paste0("reveal.js-", reveal_version)
-    if (is.null(reveal_location)) {
+    if (identical(reveal_location, "default")) {
     revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
-    if (!self_contained || identical(.Platform$OS.type, "windows"))
+    if (! identical(custom_theme_path, "default")) {
+      custom_theme_path <-  revealjs_path
+    }
+    if (! identical(custom_transition_path, "default")) {
+      custom_transition_path <- revealjs_path
+    }
+    if (!self_contained || identical(.Platform$OS.type, "windows")) {
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
-    else 
+      custom_theme_path <- relative_to(
+        output_dir, render_supporting_files(custom_theme_path, lib_dir))
+      custom_transition_path <- relative_to(
+        output_dir, render_supporting_files(custom_transition_path, lib_dir))
+    }else  {
       revealjs_path <- pandoc_path_arg(revealjs_path)
-    args <- c(args, "--variable", paste0("revealjs-url=", revealjs_path))
-    
+      custom_theme_path <- pandoc_path_arg(custom_theme_path)
+      custom_transition_path <- pandoc_path_arg(custom_transition_path)
+    }
+    args <- c(args, "--variable", paste0("revealjs-url=", revealjs_path),
+              "--variable", paste0("local-theme-url=", custom_theme_path),
+              "--variable", paste0("local-transition-url=", custom_transition_path))
+
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
     
