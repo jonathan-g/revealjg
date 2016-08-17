@@ -10,9 +10,8 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   self_contained = TRUE, theme = "simple", custom_theme = NULL,
   custom_theme_dark = FALSE, custom_theme_path = NULL,
   transition = "default", custom_transition = NULL,
-  custom_transition_path = NULL, background_transition = "default",
-  custom_background_transition = NULL, reveal_options = NULL,
-  reveal_plugins = NULL, reveal_version = "3.3.0",
+  background_transition = "default", custom_background_transition = NULL,
+  reveal_options = NULL, reveal_plugins = NULL, reveal_version = "3.3.0",
   reveal_location = "default", resource_location = "default",
   highlight = "default", mathjax = "default", tex_extensions = NULL,
   template = "default", css = NULL, includes = NULL, keep_md = FALSE,
@@ -68,8 +67,6 @@ it's size).}
 
 \item{custom_transition}{Custom slide transition, not included in reveal.js
 distribuion.}
-
-\item{custom_transition_path}{Path to custom transition css.}
 
 \item{background_transition}{Slide background-transition ("default", "none",
 "fade", "slide", "convex", "concave" or "zoom")}

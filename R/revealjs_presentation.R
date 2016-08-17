@@ -41,7 +41,6 @@
 #'   features of \code{revealjs_presentation} won't be available (see the
 #'   Templates section below for more details).
 #' @param custom_theme_path Path to custom theme css.
-#' @param custom_transition_path Path to custom transition css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
 #' @param tex_extensions LaTeX extensions for MathJax
 #' @param ... Ignored
@@ -84,11 +83,10 @@ revealjs_presentation <- function(incremental = FALSE,
                                   self_contained = TRUE,
                                   theme = "simple",
                                   custom_theme = NULL,
-                                  custom_theme_dark=FALSE,
-                                  custom_theme_path=NULL,
+                                  custom_theme_dark = FALSE,
+                                  custom_theme_path = NULL,
                                   transition = "default",
                                   custom_transition = NULL,
-                                  custom_transition_path = NULL,
                                   background_transition = "default",
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
@@ -155,7 +153,7 @@ revealjs_presentation <- function(incremental = FALSE,
     {
       stop("Missing custom_theme in YAML header")
     } else {
-      theme <- custom_theme
+      theme <- NULL
       theme_dark <- custom_theme_dark
     }
   } else {
@@ -167,9 +165,13 @@ revealjs_presentation <- function(incremental = FALSE,
       theme_dark <- TRUE
   }
   if (theme_dark) {
-    args <- c(args, "--variable", "theme-dark")
+    args <- c(args, pandoc_variable_arg("theme-dark", 'true'))
   }
-  args <- c(args, "--variable", paste("theme=", theme, sep=""))
+  if (is.null(theme)) {
+    args <- c(args, pandoc_variable_arg('local-theme', custom_theme))
+  } else {
+  args <- c(args, pandoc_variable_arg("theme", theme))
+  }
   
   
   # transition
@@ -182,11 +184,18 @@ revealjs_presentation <- function(incremental = FALSE,
       transition <- custom_transition
     }
   }
-  args <- c(args, "--variable", paste("transition=", transition, sep=""))
+  args <- c(args, pandoc_variable_arg("transition", transition))
   
   # background_transition
   background_transition <- match.arg(background_transition, revealjs_transitions())
-  args <- c(args, "--variable", paste("backgroundTransition=", background_transition, sep=""))
+  if (identical(background_transition, 'custom')) {
+    if (is.null(custom_background_transition)) {
+      stop("Missing custom_background_transition in YAML header")
+    } else {
+      background_transition <- custom_background_transition
+    }
+  }
+  args <- c(args, pandoc_variable_arg("backgroundTransition", background_transition))
   
   # use history
   args <- c(args, pandoc_variable_arg("history", "true"))
@@ -262,29 +271,29 @@ revealjs_presentation <- function(incremental = FALSE,
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
-    if (! identical(custom_theme_path, "default")) {
+    if (identical(custom_theme_path, "default")) {
       custom_theme_path <-  revealjs_path
     }
-    if (! identical(custom_transition_path, "default")) {
-      custom_transition_path <- revealjs_path
-    }
     if (!self_contained || identical(.Platform$OS.type, "windows")) {
+      #      message("revealjs_path = ", revealjs_path, 
+      #              ", custom_theme_path = ", custom_theme_path, 
+      #              "current directory = ", getwd(), ", output_dir = ",
+      #              output_dir)
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
-      custom_theme_path <- relative_to(
-        output_dir, render_supporting_files(custom_theme_path, lib_dir))
-      custom_transition_path <- relative_to(
-        output_dir, render_supporting_files(custom_transition_path, lib_dir))
+      custom_theme_path <- relative_to(output_dir, custom_theme_path)
+      # message("revealjs_path = ", revealjs_path, 
+      #         ", custom_theme_path = ", custom_theme_path, 
+      #         "current directory = ", getwd(), ", output_dir = ",
+      #         output_dir)
     }else  {
       revealjs_path <- pandoc_path_arg(revealjs_path)
       custom_theme_path <- pandoc_path_arg(custom_theme_path)
-      custom_transition_path <- pandoc_path_arg(custom_transition_path)
     }
-    args <- c(args, 
-              pandoc_variable_arg("revealjs-url", revealjs_path),
-              pandoc_variable_arg("local-theme-url", custom_theme_path),
-              pandoc_variable_arg("local-transition-url", custom_transition_path))
-
+    args <- c(args, pandoc_variable_arg("revealjs-url", revealjs_path))
+    if (is.null(theme) && ! is.null(custom_theme))
+      args <- c(args, pandoc_variable_arg("local-theme-url", custom_theme_path))
+    
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
     
