@@ -4,18 +4,19 @@
 \alias{revealjs_presentation}
 \title{Convert to a reveal.js presentation}
 \usage{
-revealjs_presentation(incremental = FALSE, center = FALSE,
-  slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
-  (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
-  self_contained = TRUE, theme = "simple", custom_theme = NULL,
-  custom_theme_dark = FALSE, custom_theme_path = NULL,
-  transition = "default", custom_transition = NULL,
-  background_transition = "default", custom_background_transition = NULL,
-  reveal_options = NULL, reveal_plugins = NULL, reveal_version = "3.3.0",
+revealjs_presentation(incremental = FALSE, center = FALSE, width = NULL,
+  height = NULL, margin = NULL, slide_level = 2, fig_width = 8,
+  fig_height = 6, fig_retina = if (!fig_caption) 2, fig_caption = FALSE,
+  smart = TRUE, self_contained = TRUE, theme = "simple",
+  custom_theme = NULL, custom_theme_dark = FALSE,
+  custom_theme_path = NULL, transition = "default",
+  custom_transition = NULL, background_transition = "default",
+  custom_background_transition = NULL, reveal_options = NULL,
+  reveal_plugins = NULL, reveal_version = "3.3.0",
   reveal_location = "default", resource_location = "default",
   highlight = "default", mathjax = "default", tex_extensions = NULL,
-  template = "default", css = NULL, includes = NULL, keep_md = FALSE,
-  lib_dir = NULL, pandoc_args = NULL, ...)
+  tex_defs = NULL, template = "default", css = NULL, includes = NULL,
+  keep_md = FALSE, lib_dir = NULL, pandoc_args = NULL, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -24,6 +25,12 @@ individual bullet you can precede it with \code{>}. For example:
 \emph{\code{> - Bullet Text}}}
 
 \item{center}{\code{TRUE} to vertically center content on slides}
+
+\item{width}{\code{NULL} to override default width (pixels)}
+
+\item{height}{\code{NULL} to override default height (pixels)}
+
+\item{margin}{\code{NULL} to override default margin around the slides.}
 
 \item{slide_level}{Level of heading to denote individual slides. If
 \code{slide_level} is 2 (the default), a two-dimensional layout will be
@@ -100,6 +107,8 @@ the official MathJax CDN. The "local" option uses a local version of MathJax
 or pass \code{NULL} to exclude MathJax entirely.}
 
 \item{tex_extensions}{LaTeX extensions for MathJax}
+
+\item{tex_defs}{LaTeX macro definitions for MathJax}
 
 \item{template}{Pandoc template to use for rendering. Pass "default" to use
 the rmarkdown package default template; pass \code{NULL} to use pandoc's

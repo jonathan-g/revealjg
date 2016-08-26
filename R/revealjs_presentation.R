@@ -7,6 +7,9 @@
 #' @inheritParams rmarkdown::html_document
 #'   
 #' @param center \code{TRUE} to vertically center content on slides
+#' @param width \code{NULL} to override default width (pixels)
+#' @param height \code{NULL} to override default height (pixels)
+#' @param margin \code{NULL} to override default margin around the slides.
 #' @param slide_level Level of heading to denote individual slides. If
 #'   \code{slide_level} is 2 (the default), a two-dimensional layout will be
 #'   produced, with level 1 headers building horizontally and level 2 headers
@@ -75,6 +78,9 @@
 #' @export
 revealjs_presentation <- function(incremental = FALSE,
                                   center = FALSE,
+                                  width = NULL,
+                                  height = NULL,
+                                  margin = NULL,
                                   slide_level = 2,
                                   fig_width = 8,
                                   fig_height = 6,
@@ -143,6 +149,14 @@ revealjs_presentation <- function(incremental = FALSE,
   # centering
   jsbool <- function(value) ifelse(value, "true", "false")
   args <- c(args, pandoc_variable_arg("center", jsbool(center)))
+
+  # width and height
+  if (! is.null(width))
+    args <- c(args, "--variable", paste0("revealjs-width=", width))
+  if (! is.null(height))
+    args <- c(args, "--variable", paste0("revealjs-height=", height))
+  if (! is.null(margin))
+    args <- c(args, "--variable", paste0("revealjs-margin=", margin))
   
   # slide level
   args <- c(args, "--slide-level", as.character(slide_level))
