@@ -43,6 +43,7 @@
 #' @param custom_theme_path Path to custom theme css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
 #' @param tex_extensions LaTeX extensions for MathJax
+#' @param tex_defs LaTeX macro definitions for MathJax
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -97,6 +98,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   highlight = "default",
                                   mathjax = "default",
                                   tex_extensions = NULL,
+                                  tex_defs = NULL,
                                   template = "default",
                                   css = NULL,
                                   includes = NULL,
@@ -237,6 +239,16 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c(args, sapply(tex_extensions, function(ext) {
       pandoc_variable_arg('tex-extensions', ext)
       }))
+  }
+  
+  # TeX macro definitions for MathJax
+  if (! is.null(tex_defs)) {
+    args <- c(args, sapply(tex_defs, function(x) {
+      pandoc_variable_arg('tex-defs', 
+                          gsub('\\','\\\\',
+                            paste0(x$name, ': "', x$def, '"'),
+                            fixed=TRUE))
+    }))
   }
   
   # content includes
