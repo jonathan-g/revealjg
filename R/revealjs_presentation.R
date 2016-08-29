@@ -47,6 +47,8 @@
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
 #' @param tex_extensions LaTeX extensions for MathJax
 #' @param tex_defs LaTeX macro definitions for MathJax
+#' @param md_extensions Pandoc markdown extensions
+#' @param mathjax_scale Scale (in percent) for MathJax. Default = 100
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -103,11 +105,13 @@ revealjs_presentation <- function(incremental = FALSE,
                                   resource_location = "default",
                                   highlight = "default",
                                   mathjax = "default",
+                                  mathjax_scale = NULL,
                                   tex_extensions = NULL,
                                   tex_defs = NULL,
                                   template = "default",
                                   css = NULL,
                                   includes = NULL,
+                                  md_extensions = NULL,
                                   keep_md = FALSE,
                                   lib_dir = NULL,
                                   pandoc_args = NULL,
@@ -216,6 +220,11 @@ revealjs_presentation <- function(incremental = FALSE,
   # use history
   args <- c(args, pandoc_variable_arg("history", "true"))
   
+  # mathjax-scale
+  if (! is.null(mathjax_scale)) {
+    args <- c(args, pandoc_variable_arg("mathjax-scale", mathjax_scale))
+  }
+  
   # additional reveal options
   if (is.list(reveal_options)) {
     for (option in names(reveal_options)) {
@@ -271,6 +280,16 @@ revealjs_presentation <- function(incremental = FALSE,
   # additional css
   for (css_file in css)
     args <- c(args, "--css", pandoc_path_arg(css_file))
+  
+  
+  markdown_extensions <- ifelse(fig_caption, 
+                                "", 
+                                "-implicit_figures")
+  
+  if(! is.null(md_extensions)) {
+    markdown_extensions <- paste(markdown_extensions, md_extensions,
+                                 sep = '', collapse = '')
+  }
   
   # pre-processor for arguments that may depend on the name of the
   # the input file (e.g. ones that need to copy supporting files)
@@ -331,9 +350,7 @@ revealjs_presentation <- function(incremental = FALSE,
   output_format(
     knitr = knitr_options_html(fig_width, fig_height, fig_retina, keep_md),
     pandoc = pandoc_options(to = "revealjs",
-                            from = rmarkdown_format(ifelse(fig_caption, 
-                                                           "", 
-                                                           "-implicit_figures")),
+                            from = rmarkdown_format(markdown_extensions),
                             args = args),
     keep_md = keep_md,
     clean_supporting = self_contained,
