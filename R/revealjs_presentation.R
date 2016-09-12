@@ -7,6 +7,7 @@
 #' @inheritParams rmarkdown::html_document
 #'   
 #' @param center \code{TRUE} to vertically center content on slides
+#' @param controls \code{TRUE} to show navigation controls on slides
 #' @param width \code{NULL} to override default width (pixels)
 #' @param height \code{NULL} to override default height (pixels)
 #' @param margin \code{NULL} to override default margin around the slides.
@@ -103,6 +104,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   reveal_version = "3.3.0",
                                   reveal_location = "default",
                                   resource_location = "default",
+                                  controls = FALSE,
                                   highlight = "default",
                                   mathjax = "default",
                                   mathjax_scale = NULL,
@@ -153,6 +155,9 @@ revealjs_presentation <- function(incremental = FALSE,
   # centering
   jsbool <- function(value) ifelse(value, "true", "false")
   args <- c(args, pandoc_variable_arg("center", jsbool(center)))
+  
+  # controls
+  args <- c(args, pandoc_variable_arg("controls", jsbool(controls)))
 
   # width and height
   if (! is.null(width))
