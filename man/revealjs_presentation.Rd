@@ -7,15 +7,11 @@
 revealjs_presentation(incremental = FALSE, center = FALSE,
   slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
   (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
-  self_contained = TRUE, theme = "simple", 
-  custom_theme = NULL, custom_theme_dark = FALSE,
-  transition = "default",
-  custom_transition = NULL,
-  background_transition = "default", 
-  custom_background_transition = NULL,  history = TRUE,
-  reveal_options = NULL, highlight = "default", mathjax = "default",
+  self_contained = TRUE, theme = "simple", transition = "default",
+  background_transition = "default", reveal_options = NULL,
+  reveal_plugins = NULL, highlight = "default", mathjax = "default",
   template = "default", css = NULL, includes = NULL, keep_md = FALSE,
-  lib_dir = NULL, pandoc_args = NULL, ...)
+  lib_dir = NULL, pandoc_args = NULL, extra_dependencies = NULL, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -35,12 +31,11 @@ section levels with reveal.js.}
 
 \item{fig_height}{Default width (in inches) for figures}
 
-\item{fig_retina}{Scaling to perform for retina displays (defaults to 2 when
-\code{fig_caption} is \code{FALSE}, which currently works for all widely
-used retina displays). Set to \code{NULL} to prevent retina scaling. Note
-that this will always be \code{NULL} when \code{keep_md} is specified (this
-is because \code{fig_retina} relies on outputting HTML directly into the
-markdown document).}
+\item{fig_retina}{Scaling to perform for retina displays (defaults to 2, which
+currently works for all widely used retina displays). Set to \code{NULL} to
+prevent retina scaling. Note that this will always be \code{NULL} when
+\code{keep_md} is specified (this is because \code{fig_retina} relies on
+outputting HTML directly into the markdown document).}
 
 \item{fig_caption}{\code{TRUE} to render figures with captions}
 
@@ -50,9 +45,9 @@ ellipses.}
 
 \item{self_contained}{Produce a standalone HTML file with no external
 dependencies, using data: URIs to incorporate the contents of linked
-scripts, stylesheets, images, and videos. Note that even for self
-contained documents MathJax is still loaded externally (this is
-necessary because of it's size).}
+scripts, stylesheets, images, and videos. Note that even for self contained
+documents MathJax is still loaded externally (this is necessary because of
+it's size).}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}
@@ -63,11 +58,13 @@ necessary because of it's size).}
 \item{background_transition}{Slide background-transition ("default", "none",
 "fade", "slide", "convex", "concave" or "zoom")}
 
-\item{history}{\code{TRUE} to push each slide change to the browser history.}
-
 \item{reveal_options}{Additional options to specify for reveal.js (see 
 \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 for details).}
+
+\item{reveal_plugins}{Reveal plugins to include. Available plugins include "notes", 
+"search", and "zoom". Note that \code{self_contained} must be set to 
+\code{FALSE} in order to use Reveal plugins.}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
 "default", "tango", "pygments", "kate", "monochrome", "espresso",
@@ -98,6 +95,9 @@ bootstrap, etc.) into. By default this will be the name of the document with
 
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 
+\item{extra_dependencies}{Add \code{latex_dependency()} dependencies. It can
+can be used to add custom LaTeX packages to the .tex header.}
+
 \item{...}{Ignored}
 }
 \value{
@@ -113,13 +113,13 @@ will be produced, with level 1 headers building horizontally and level 2
 headers building vertically.
 
 For additional documentation on using revealjs presentations see
-\href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
+\href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
 }
 \examples{
 \dontrun{
 
 library(rmarkdown)
-library(revealjs.jg)
+library(revealjs)
 
 # simple invocation
 render("pres.Rmd", revealjs_presentation())
