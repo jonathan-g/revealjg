@@ -1,3 +1,17 @@
+Version 0.9 (Unreleased)
+-----------------------------------------------------------------------
+
+- Correct handling of pdf css for self_contained document
+
+- Remove html5shiv.js from template
+
+
+Version 0.8
+-----------------------------------------------------------------------
+
+- Add support for the chalkboard plugin
+
+
 Version 0.7
 -----------------------------------------------------------------------
 
