@@ -71,7 +71,7 @@ it's size).}
 
 \item{custom_theme_path}{Path to custom theme css.}
 
-\item{transition}{Slide transition ("default", "none", "fade", "slide", 
+\item{transition}{Slide transition ("default", "none", "fade", "slide",
 "convex", "concave" or "zoom")}
 
 \item{custom_transition}{Custom slide transition, not included in reveal.js
@@ -80,21 +80,22 @@ distribuion.}
 \item{background_transition}{Slide background-transition ("default", "none",
 "fade", "slide", "convex", "concave" or "zoom")}
 
-\item{custom_background_transition}{Custom background-transition, not 
+\item{custom_background_transition}{Custom background-transition, not
 included in reveal.js distribuion.}
 
-\item{reveal_options}{Additional options to specify for reveal.js (see 
+\item{reveal_options}{Additional options to specify for reveal.js (see
 \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 for details).}
 
-\item{reveal_plugins}{Reveal plugins to include. Available plugins include "notes", 
-"search", and "zoom". Note that \code{self_contained} must be set to 
-\code{FALSE} in order to use Reveal plugins.}
+\item{reveal_plugins}{Reveal plugins to include. Available plugins include
+"notes", "search", "zoom", "chalkboard", and "menu". Note that
+\code{self_contained} must be set to \code{FALSE} in order to use Reveal
+plugins.}
 
 \item{reveal_version}{Version of reveal.js to use.}
 
-\item{reveal_location}{Location to search for reveal.js (Expects to find 
-reveal.js distribution at 
+\item{reveal_location}{Location to search for reveal.js (Expects to find
+reveal.js distribution at
 \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}}
 
 \item{resource_location}{Optional custom path to reveal.js templates and skeletons}
@@ -138,8 +139,8 @@ bootstrap, etc.) into. By default this will be the name of the document with
 
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 
-\item{extra_dependencies}{Add \code{latex_dependency()} dependencies. It can
-can be used to add custom LaTeX packages to the .tex header.}
+\item{extra_dependencies}{Additional function arguments to pass to the base R
+Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}.}
 
 \item{...}{Ignored}
 }
@@ -173,4 +174,3 @@ render("pres.Rmd", revealjs_presentation(incremental = TRUE))
 
 
 }
-

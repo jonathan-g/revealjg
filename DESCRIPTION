@@ -8,6 +8,8 @@ Authors@R: c(
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
     person("Asvin", "Goel", role = c("ctb", "cph"), email = "goel@telematique.eu",
        comment = "chalkboard plugin"),
+    person("Greg", "Denehy", role = c("ctb", "cph"),
+       comment = "menu plugin"),
     person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"),
     person("Jonathan", "Gilligan", role = c("aut"), email = "jonathan.gilligan@gmail.com"),
     person(family = "RStudio", role = "cph")
@@ -23,4 +25,5 @@ Imports:
     rmarkdown (>= 1.0)
 Suggests:
     testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
