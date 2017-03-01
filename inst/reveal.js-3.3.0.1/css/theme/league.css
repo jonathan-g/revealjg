@@ -1,27 +1,3 @@
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: url(fonts/Lato.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  src: url(fonts/LatoBold.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  src: url(fonts/LatoItalic.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: url(fonts/LatoBoldItalic.ttf) format('truetype');
-}
 /**
  * League theme for reveal.js.
  *
@@ -29,14 +5,8 @@
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
-@font-face {
-  font-family: 'League Gothic';
-  src: url("../../lib/font/league-gothic/league-gothic.eot");
-  src: url("../../lib/font/league-gothic/league-gothic.eot?#iefix") format("embedded-opentype"), url("../../lib/font/league-gothic/league-gothic.woff") format("woff"), url("../../lib/font/league-gothic/league-gothic.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal; }
-
-
+@import url(../../lib/font/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
