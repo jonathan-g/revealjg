@@ -31,9 +31,10 @@
 #' @param reveal_options Additional options to specify for reveal.js (see 
 #'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 #'   for details).
-#' @param reveal_plugins Reveal plugins to include. Available plugins include "notes", 
-#'   "search", and "zoom". Note that \code{self_contained} must be set to 
-#'   \code{FALSE} in order to use Reveal plugins.
+#' @param reveal_plugins Reveal plugins to include. Available plugins include
+#'   "notes", "search", "zoom", "chalkboard", and "menu". Note that
+#'   \code{self_contained} must be set to \code{FALSE} in order to use Reveal
+#'   plugins.
 #' @param reveal_version Version of reveal.js to use.
 #' @param reveal_location Location to search for reveal.js (Expects to find 
 #' reveal.js distribution at 
@@ -50,6 +51,8 @@
 #' @param tex_defs LaTeX macro definitions for MathJax
 #' @param md_extensions Pandoc markdown extensions
 #' @param mathjax_scale Scale (in percent) for MathJax. Default = 100
+#' @param extra_dependencies Additional function arguments to pass to the base R
+#'   Markdown HTML output formatter [rmarkdown::html_document_base()].
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -101,7 +104,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
-                                  reveal_version = "3.3.0",
+                                  reveal_version = "3.3.0.1",
                                   reveal_location = "default",
                                   resource_location = "default",
                                   controls = FALSE,
@@ -243,12 +246,12 @@ revealjs_presentation <- function(incremental = FALSE,
     }
     
     for (option in names(reveal_options)) {
-      # special handling for nested chalkboard options
-      if (identical(option, "chalkboard")) {
-        chalkboard_options <- reveal_options[[option]]
-        for (chalkboard_option in names(chalkboard_options)) {
-          add_reveal_option(paste0("chalkboard-", chalkboard_option),
-                            chalkboard_options[[chalkboard_option]])
+      # special handling for nested options
+      if (option %in% c("chalkboard", "menu")) {
+        nested_options <- reveal_options[[option]]
+        for (nested_option in names(nested_options)) {
+          add_reveal_option(paste0(option, "-", nested_option),
+                            nested_options[[nested_option]])
   }
       }
       # standard top-level options
@@ -266,7 +269,7 @@ revealjs_presentation <- function(incremental = FALSE,
       stop("Using reveal_plugins requires self_contained: false")
     
     # validate specified plugins are supported
-    supported_plugins <- c("notes", "search", "zoom", "chalkboard")
+    supported_plugins <- c("notes", "search", "zoom", "chalkboard", "menu")
     invalid_plugins <- setdiff(reveal_plugins, supported_plugins)
     if (length(invalid_plugins) > 0)
       stop("The following plugin(s) are not supported: ",
@@ -275,7 +278,11 @@ revealjs_presentation <- function(incremental = FALSE,
     # add plugins
     sapply(reveal_plugins, function(plugin) {
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
-    })    
+      if (plugin %in% c("chalkboard", "menu")) {
+        extra_dependencies <<- append(extra_dependencies,
+                                     list(rmarkdown::html_dependency_font_awesome()))
+      }
+    })
   }
   
   # TeX extensions for MathJax
