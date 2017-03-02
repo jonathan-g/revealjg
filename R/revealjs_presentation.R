@@ -16,7 +16,7 @@
 #'   produced, with level 1 headers building horizontally and level 2 headers
 #'   building vertically. It is not recommended that you use deeper nesting of
 #'   section levels with reveal.js.
-#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized", 
+#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
 #'   "blood", "moon", "night", "black", "league" or "white").
 #' @param custom_theme Custom theme, not included in reveal.js distribution
 #' @param custom_theme_dark Does the custom theme use a dark-mode?
@@ -35,16 +35,15 @@
 #'   "notes", "search", "zoom", "chalkboard", and "menu". Note that
 #'   \code{self_contained} must be set to \code{FALSE} in order to use Reveal
 #'   plugins.
-
 #' @param reveal_version Version of reveal.js to use.
 #' @param reveal_location Location to search for reveal.js (Expects to find 
 #' reveal.js distribution at 
 #' \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}
-#' @param template Pandoc template to use for rendering. Pass "default" to use 
-#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's 
-#'   built-in template; pass a path to use a custom template that you've 
-#'   created. Note that if you don't use the "default" template then some 
-#'   features of \code{revealjs_presentation} won't be available (see the 
+#' @param template Pandoc template to use for rendering. Pass "default" to use
+#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
+#'   built-in template; pass a path to use a custom template that you've
+#'   created. Note that if you don't use the "default" template then some
+#'   features of \code{revealjs_presentation} won't be available (see the
 #'   Templates section below for more details).
 #' @param custom_theme_path Path to custom theme css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
@@ -62,10 +61,10 @@
 #' 
 #' In reveal.js presentations you can use level 1 or level 2 headers for slides.
 #' If you use a mix of level 1 and level 2 headers then a two-dimensional layout
-#' will be produced, with level 1 headers building horizontally and level 2 
+#' will be produced, with level 1 headers building horizontally and level 2
 #' headers building vertically.
 #' 
-#' For additional documentation on using revealjs presentations see 
+#' For additional documentation on using revealjs presentations see
 #' \href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
 #'   
 #' @examples
@@ -105,7 +104,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
-                                  reveal_version = "3.3.0",
+                                  reveal_version = "3.3.0.1",
                                   reveal_location = "default",
                                   resource_location = "default",
                                   controls = FALSE,
@@ -281,9 +280,9 @@ revealjs_presentation <- function(incremental = FALSE,
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
       if (plugin %in% c("chalkboard", "menu")) {
         extra_dependencies <<- append(extra_dependencies,
-                                      list(rmarkdown::html_dependency_font_awesome()))
+                                     list(rmarkdown::html_dependency_font_awesome()))
       }
-    }) 
+    })
   }
   
   # TeX extensions for MathJax
