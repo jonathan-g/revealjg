@@ -126,8 +126,8 @@ revealjs_presentation <- function(incremental = FALSE,
   # function to lookup reveal resource
   reveal_resources <- function() {
     if(identical(resource_location, "default")) {
-    system.file("rmarkdown/templates/revealjs_presentation/resources",
-                package = "revealjs.jg")
+      system.file("rmarkdown/templates/revealjs_presentation/resources",
+                  package = "revealjs.jg")
     } else {
       resource_location
     }
@@ -162,7 +162,7 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # controls
   args <- c(args, pandoc_variable_arg("controls", jsbool(controls)))
-
+  
   # width and height
   if (! is.null(width))
     args <- c(args, "--variable", paste0("revealjs-width=", width))
@@ -199,7 +199,7 @@ revealjs_presentation <- function(incremental = FALSE,
   if (is.null(theme)) {
     args <- c(args, pandoc_variable_arg('local-theme', custom_theme))
   } else {
-  args <- c(args, pandoc_variable_arg("theme", theme))
+    args <- c(args, pandoc_variable_arg("theme", theme))
   }
   
   
@@ -252,7 +252,7 @@ revealjs_presentation <- function(incremental = FALSE,
         for (nested_option in names(nested_options)) {
           add_reveal_option(paste0(option, "-", nested_option),
                             nested_options[[nested_option]])
-  }
+        }
       }
       # standard top-level options
       else {
@@ -280,7 +280,7 @@ revealjs_presentation <- function(incremental = FALSE,
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
       if (plugin %in% c("chalkboard", "menu")) {
         extra_dependencies <<- append(extra_dependencies,
-                                     list(rmarkdown::html_dependency_font_awesome()))
+                                      list(rmarkdown::html_dependency_font_awesome()))
       }
     })
   }
@@ -289,7 +289,7 @@ revealjs_presentation <- function(incremental = FALSE,
   if (! is.null(tex_extensions)) {
     args <- c(args, sapply(tex_extensions, function(ext) {
       pandoc_variable_arg('tex-extensions', ext)
-      }))
+    }))
   }
   
   # TeX macro definitions for MathJax
@@ -297,8 +297,8 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c(args, sapply(tex_defs, function(x) {
       pandoc_variable_arg('tex-defs', 
                           gsub('\\','\\\\',
-                            paste0(x$name, ': "', x$def, '"'),
-                            fixed=TRUE))
+                               paste0(x$name, ': "', x$def, '"'),
+                               fixed=TRUE))
     }))
   }
   
@@ -341,6 +341,10 @@ revealjs_presentation <- function(incremental = FALSE,
     reveal_home <- paste0("reveal.js-", reveal_version)
     if (identical(reveal_location, "default")) {
       revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
+      if (identical(revealjs_path, '')) {
+        message('Empty revealjs_path')
+        revealjs_path <- file.path(lib_dir, reveal_home)
+      }
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
@@ -419,7 +423,7 @@ revealjs_transitions <- function() {
     "concave",
     "zoom",
     "custom"
-    )
+  )
 }
 
 
