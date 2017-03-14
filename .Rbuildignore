@@ -4,5 +4,6 @@ README.*
 examples/
 ^inst/old_rmarkdown$
 ^inst.*/node_modules$
+^inst.*/node_modules/.*
 .*[.]bak$
 [.]git/

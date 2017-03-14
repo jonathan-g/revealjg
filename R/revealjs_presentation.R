@@ -340,7 +340,7 @@ revealjs_presentation <- function(incremental = FALSE,
     # reveal.js
     reveal_home <- paste0("reveal.js-", reveal_version)
     if (identical(reveal_location, "default")) {
-    revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
+      revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
@@ -348,17 +348,17 @@ revealjs_presentation <- function(incremental = FALSE,
       custom_theme_path <-  revealjs_path
     }
     if (!self_contained || identical(.Platform$OS.type, "windows")) {
-      #      message("revealjs_path = ", revealjs_path, 
-      #              ", custom_theme_path = ", custom_theme_path, 
-      #              "current directory = ", getwd(), ", output_dir = ",
-      #              output_dir)
+      message("revealjs_path = ", revealjs_path, 
+              ", custom_theme_path = ", custom_theme_path, 
+              "current directory = ", getwd(), ", output_dir = ",
+              output_dir)
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
       custom_theme_path <- relative_to(output_dir, custom_theme_path)
-      # message("revealjs_path = ", revealjs_path, 
-      #         ", custom_theme_path = ", custom_theme_path, 
-      #         "current directory = ", getwd(), ", output_dir = ",
-      #         output_dir)
+      message("revealjs_path = ", revealjs_path, 
+              ", custom_theme_path = ", custom_theme_path, 
+              "current directory = ", getwd(), ", output_dir = ",
+              output_dir)
     }else  {
       revealjs_path <- pandoc_path_arg(revealjs_path)
       custom_theme_path <- pandoc_path_arg(custom_theme_path)
