@@ -314,6 +314,9 @@ revealjs_presentation <- function(incremental = FALSE,
                                 "", 
                                 "-implicit_figures")
   
+  markdown_extensions <- paste0(markdown_extensions, 
+                                ifelse(smart, "+", "-"), "smart")
+  
   if(! is.null(md_extensions)) {
     markdown_extensions <- paste(markdown_extensions, md_extensions,
                                  sep = '', collapse = '')
@@ -387,7 +390,7 @@ revealjs_presentation <- function(incremental = FALSE,
     keep_md = keep_md,
     clean_supporting = self_contained,
     pre_processor = pre_processor,
-    base_format = html_document_base(smart = smart, lib_dir = lib_dir,
+    base_format = html_document_base(smart = FALSE, lib_dir = lib_dir,
                                      self_contained = self_contained,
                                      mathjax = mathjax,
                                      pandoc_args = pandoc_args, 

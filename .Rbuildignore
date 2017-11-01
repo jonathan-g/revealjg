@@ -6,3 +6,4 @@ examples/
 ^(.*/)*node_modules$
 .*[.]bak$
 \.git/
+^(.*/)*\.gitkeep$
