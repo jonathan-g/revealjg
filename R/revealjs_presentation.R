@@ -66,7 +66,7 @@
 #' 
 #' For additional documentation on using revealjs presentations see
 #' \href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
-#'   
+#' 
 #' @examples
 #' \dontrun{
 #' 
