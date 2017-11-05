@@ -139,7 +139,7 @@ For example:
 
 ## Slide Transitions
 
-You can use the `transition` and `background_transition` optoins to specify the global default slide transition style:
+You can use the `transition` and `background_transition` options to specify the global default slide transition style:
 
 * `transition` specifies the visual effect when moving between slides. Available transitions are "default", "fade", "slide", "convex", "concave", "zoom" or "none".
 
@@ -181,7 +181,7 @@ Slides are contained within a limited portion of the screen by default to allow 
     
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by specifying the `background-transition: slide`. Alternatively you can set data-background-transition on any slide with a background to override that specific transition.
 
-## 2-D Presenations
+## 2-D Presentations
 
 You can use the `slide_level` option to specify which level of heading will be used to denote individual slides. If `slide_level` is 2 (the default), a two-dimensional layout will be produced, with level 1 headers building horizontally and level 2 headers building vertically. For example:
 
@@ -197,9 +197,9 @@ With this layout horizontal navigation will proceed directly from "Horizontal Sl
 
 
 
-## Reveal.js Options
+## Reveal Options
 
-Reveal.js has many additional options to conigure it's behavior. You can specify any of these options using `reveal_options`, for example:
+Reveal.js has many additional options to configure it's behavior. You can specify any of these options using `reveal_options`, for example:
 
     ---
     title: "Habits"
@@ -278,7 +278,7 @@ To exclude MathJax entirely:
 
 ## Document Dependencies
 
-By default R Markdown produces standalone HTML files with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. This means you can share or publish the file just like you share Office documents or PDFs. If you'd rather have keep depenencies in external files you can specify `self_contained: false`. For example:
+By default R Markdown produces standalone HTML files with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. This means you can share or publish the file just like you share Office documents or PDFs. If you'd rather keep dependencies in external files you can specify `self_contained: false`. For example:
 
     ---
     title: "Habits"
@@ -299,6 +299,45 @@ One common reason keep dependencies external is for serving R Markdown documents
         lib_dir: libs
     ---
 
+## Reveal Plugins
+
+You can enable various reveal.js plugins using the `reveal_plugins` option. Plugins currently supported include:
+
+| Plugin | Description  |
+|----------------------------|---------------------------------------------|
+| [notes](https://github.com/hakimel/reveal.js/#speaker-notes) | Present per-slide notes in a separate browser window. |
+| [zoom](http://lab.hakim.se/zoom-js/) | Zoom in and out of selected content with Alt+Click. |
+| [search](https://github.com/hakimel/reveal.js/blob/master/plugin/search/search.js) | Find a text string anywhere in the slides and show the next occurrence to the user. |
+| [chalkboard](https://github.com/rajgoel/reveal.js-plugins/tree/master/chalkboard) | Include handwritten notes within a presentation. |
+| [menu](https://github.com/denehyg/reveal.js-menu) | Include a navigation menu within a presentation. |
+
+Note that the use of plugins requires that the `self_contained` option be set to false. For example, this presentation includes both the "notes" and "search" plugins:
+
+    ---
+    title: "Habits"
+    output:
+      revealjs::revealjs_presentation:
+        self_contained: false
+        reveal_plugins: ["notes", "search"]
+    ---
+
+You can specify additional options for the `chalkboard` and `menu` plugins using `reveal_options`, for example:
+
+    ---
+    title: "Habits"
+    output:
+      revealjs::revealjs_presentation:
+        self_contained: false
+        reveal_plugins: ["chalkboard", "menu"]
+        reveal_options:
+          chalkboard:
+            theme: whiteboard
+            toggleNotesButton: false
+          menu:
+            side: right
+    ---
+
+
 ## Advanced Customization
 
 ### Includes
@@ -318,7 +357,7 @@ You can do more advanced customization of output by including additional HTML co
 
 ### Pandoc Arguments
 
-If there are pandoc features you want to use that lack equivilants in the YAML options described above you can still use them by passing custom `pandoc_args`. For example:
+If there are pandoc features you want to use that lack equivalents in the YAML options described above you can still use them by passing custom `pandoc_args`. For example:
 
     ---
     title: "Habits"
@@ -334,7 +373,7 @@ Documentation on all available pandoc arguments can be found in the [pandoc user
 
 ## Shared Options
 
-If you want to specify a set of default options to be shared by multiple documents within a directory you can include a file named `_output.yaml` within the directory. Note that no YAML delimeters or enclosing output object are used in this file. For example:
+If you want to specify a set of default options to be shared by multiple documents within a directory you can include a file named `_output.yaml` within the directory. Note that no YAML delimiters or enclosing output object are used in this file. For example:
 
 **\_output.yaml**
 
@@ -346,14 +385,3 @@ revealjs.jg::revealjs_presentation:
 ```
 
 All documents located in the same directory as `_output.yaml` will inherit it's options. Options defined explicitly within documents will override those specified in the shared options file.
-
-
-
-
-
-
-
-
-
-
-    
