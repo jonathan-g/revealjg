@@ -1,8 +1,8 @@
 Package: revealjs.jg
 Type: Package
 Title: R Markdown Format for 'reveal.js' Presentations
-Version: 0.8.9004
-Date: 2017-03-14
+Version: 0.9.9001
+Date: 2017-11-05
 Authors@R: c(
     person("Hakim", "El Hattab", role = c("aut", "cph"),
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
@@ -22,7 +22,12 @@ BugReports: https://github.com/jonathan-g/revealjs.jg/issues
 Depends:
     R (>= 3.0)
 Imports:
-    rmarkdown (>= 1.0)
+    rmarkdown (>= 1.0),
+    tibble,
+    dplyr,
+    purrr,
+    stringr,
+    magrittr
 Suggests:
     testthat
 RoxygenNote: 6.0.1

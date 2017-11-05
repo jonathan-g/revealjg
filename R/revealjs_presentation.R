@@ -1,3 +1,5 @@
+globalVariables(c(".", "extension", "value"))
+
 #' Convert to a reveal.js presentation
 #' 
 #' Format for converting from R Markdown to a reveal.js presentation.
@@ -310,17 +312,31 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c(args, "--css", pandoc_path_arg(css_file))
   
   
-  markdown_extensions <- ifelse(fig_caption, 
-                                "", 
-                                "-implicit_figures")
-  
-  markdown_extensions <- paste0(markdown_extensions, 
-                                ifelse(smart, "+", "-"), "smart")
+  markdown_extensions <- tibble::tibble(
+    extension = c("implicit_figures", "smart", "markdown_in_html_blocks"),
+    value = c(fig_caption, smart, TRUE)
+  )
+
+  # message("Base extensions = [", str_c(markdown_extensions, collapse = ", "), "]")
   
   if(! is.null(md_extensions)) {
-    markdown_extensions <- paste(markdown_extensions, md_extensions,
-                                 sep = '', collapse = '')
+    user_md_extensions = str_extract_all(md_extensions, "([+-])([A-Za-z0-9_]+)") %>% 
+      simplify() %>% tibble(extension = .) %>% 
+      mutate(value = str_detect(extension, '^\\+'), extension = str_sub(extension, 2))
+   
+    # message("User extensions = [", str_c(md_extensions, collapse = ", "), "]")
+    # message("Processed User extensions = [", str_c(user_md_extensions, collapse = ", "), "]")
+    
+    markdown_extensions <- markdown_extensions %>% 
+      filter(! extension %in% user_md_extensions$extension) %>%
+      bind_rows(user_md_extensions)
   }
+
+  markdown_extensions <- markdown_extensions %>% 
+    transmute(string = str_c(ifelse(value, "+", "-"), extension)) %>%
+    simplify() %>% str_c(collapse = "")
+  
+  # message("Merged extensions = [", str_c(markdown_extensions, collapse = ", "), "]")
   
   # pre-processor for arguments that may depend on the name of the
   # the input file (e.g. ones that need to copy supporting files)
