@@ -1,4 +1,5 @@
-/* global module:false */
+/* global module:false*/
+/* global require */
 module.exports = function(grunt) {
 	var port = grunt.option('port') || 8000;
 	var root = grunt.option('root') || '.';
@@ -52,19 +53,28 @@ module.exports = function(grunt) {
 			}
 		},
 
-		autoprefixer: {
+		postcss: {
+      options: {
+        map: false,
+        processors: [
+          require('pixrem')(), // add fallbacks for rem units
+          require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
+          require('cssnano')() // minify the result
+        ]
+      },
 			dist: {
-				src: 'css/reveal.css'
+				src: 'css/reveal.css',
+        dest: 'css/reveal.min.css'
 			}
 		},
 
-		cssmin: {
-			compress: {
-				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
-				}
-			}
-		},
+		// cssmin: {
+		// 	compress: {
+		// 		files: {
+		// 			'css/reveal.min.css': [ 'css/reveal.css' ]
+		// 		}
+		// 	}
+		// },
 
 		jshint: {
 			options: {
@@ -72,7 +82,7 @@ module.exports = function(grunt) {
 				eqeqeq: true,
 				immed: true,
 				esnext: true,
-				latedef: true,
+				latedef: "nofunc", // true, // original setting
 				newcap: true,
 				noarg: true,
 				sub: true,
@@ -161,7 +171,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
-	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+	grunt.loadNpmTasks( 'grunt-postcss' );
 	grunt.loadNpmTasks( 'grunt-zip' );
 	grunt.loadNpmTasks( 'grunt-retire' );
 
@@ -175,10 +185,10 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
 
 	// Core framework CSS
-	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
+	grunt.registerTask( 'css-core', [ 'sass:core', 'postcss' ] );
 
 	// All CSS
-	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
+	grunt.registerTask( 'css', [ 'sass', 'postcss' ] );
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
