@@ -4,15 +4,15 @@
 \alias{revealjs_presentation}
 \title{Convert to a reveal.js presentation}
 \usage{
-revealjs_presentation(incremental = FALSE, center = FALSE, width = NULL,
-  height = NULL, margin = NULL, slide_level = 2, fig_width = 8,
-  fig_height = 6, fig_retina = if (!fig_caption) 2, fig_caption = FALSE,
-  smart = TRUE, self_contained = TRUE, theme = "simple",
-  custom_theme = NULL, custom_theme_dark = FALSE,
+revealjs_presentation(incremental = FALSE, center = FALSE,
+  width = NULL, height = NULL, margin = NULL, slide_level = 2,
+  fig_width = 8, fig_height = 6, fig_retina = if (!fig_caption) 2,
+  fig_caption = FALSE, smart = TRUE, self_contained = TRUE,
+  theme = "simple", custom_theme = NULL, custom_theme_dark = FALSE,
   custom_theme_path = NULL, transition = "default",
   custom_transition = NULL, background_transition = "default",
   custom_background_transition = NULL, reveal_options = NULL,
-  reveal_plugins = NULL, reveal_version = "3.3.0.1",
+  reveal_plugins = NULL, reveal_version = "3.5.0.1",
   reveal_location = "default", resource_location = "default",
   controls = FALSE, highlight = "default", mathjax = "default",
   mathjax_scale = NULL, tex_extensions = NULL, tex_defs = NULL,
@@ -42,7 +42,7 @@ section levels with reveal.js.}
 
 \item{fig_width}{Default width (in inches) for figures}
 
-\item{fig_height}{Default width (in inches) for figures}
+\item{fig_height}{Default height (in inches) for figures}
 
 \item{fig_retina}{Scaling to perform for retina displays (defaults to 2, which
 currently works for all widely used retina displays). Set to \code{NULL} to
@@ -53,14 +53,12 @@ outputting HTML directly into the markdown document).}
 \item{fig_caption}{\code{TRUE} to render figures with captions}
 
 \item{smart}{Produce typographically correct output, converting straight
-quotes to curly quotes, --- to em-dashes, -- to en-dashes, and ... to
-ellipses.}
+quotes to curly quotes, \code{---} to em-dashes, \code{--} to en-dashes, and
+\code{...} to ellipses.}
 
-\item{self_contained}{Produce a standalone HTML file with no external
-dependencies, using data: URIs to incorporate the contents of linked
-scripts, stylesheets, images, and videos. Note that even for self contained
-documents MathJax is still loaded externally (this is necessary because of
-it's size).}
+\item{self_contained}{Whether to generate a full LaTeX document (\code{TRUE})
+or just the body of a LaTeX document (\code{FALSE}). Note the LaTeX
+document is an intermediate file unless \code{keep_tex = TRUE}.}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}

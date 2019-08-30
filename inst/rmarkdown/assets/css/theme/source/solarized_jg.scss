@@ -1,5 +1,4 @@
-/**
- * Solarized Light JG theme for reveal.js.
+/* Solarized Light JG theme for reveal.js.
  * Author: Achim Staebler, Modified by Jonathan GIlligan
  */
 
@@ -41,6 +40,7 @@ $violet:    #6c71c4;
 $blue:      #268bd2;
 $cyan:      #2aa198;
 $green:     #859900;
+$darkblue:  #134671;
 
 // Override theme settings (see ../template/settings.scss)
 $mainColor: $base00;
@@ -63,8 +63,9 @@ $headingTextTransform: none;
 $heading1TextShador: none;
 
 $codeFont: 'Anonymous Pro', monospace;
-$codeColor: $base0;
-$codeBackgroundColor: $base03;
+$inlineCodeColor: $blue;
+$codeColor: $darkblue;
+$codeBackgroundColor: #C0C0C0;
 
 
 // Background generator
@@ -107,12 +108,25 @@ $codeBackgroundColor: $base03;
  margin-left: 2em;
  }
 
+ .reveal ol[type=A] {
+ list-style-type: upper-alpha;
+ }
+
+ .reveal ol[type=a] {
+ list-style-type: lower-alpha;
+ }
+
  .reveal sub {
  font-size: 60%;
  }
 
  .reveal sup {
  font-size: 60%;
+ }
+
+ .reveal .small {
+	 font-size:0.6em;
+	 line-height: 1.2em;
  }
 
 .reveal pre {
@@ -128,10 +142,12 @@ $codeBackgroundColor: $base03;
 
 	word-wrap: break-word;
 
-	box-shadow: 0;
+	box-shadow: none;
 }
+
 .reveal code {
 	font-family: $codeFont;
+	color: $inlineCodeColor;
 }
 
 .reveal pre code {
@@ -157,6 +173,24 @@ $codeBackgroundColor: $base03;
 {
   text-align: left;
 }
+
+.reveal .slides .leftslide section,
+.reveal .slides .leftslide div,
+.reveal .leftslide p,
+.reveal .leftslide ul,
+.reveal .leftslide ol,
+.reveal .leftslide li,
+{
+  width: 100%;
+}
+
+.reveal .leftslide p,
+.reveal .leftslide ul,
+.reveal .leftslide ol,
+{
+  margin-left: 1em;
+}
+
 
 .reveal .leftslide h1,
 .reveal .leftslide h2,
@@ -209,6 +243,10 @@ $codeBackgroundColor: $base03;
   color: yellow;
   }
 
+.reveal .ninetyfive {
+  font-size: 95%;
+  }
+
 .reveal .ninety {
   font-size: 90%;
   }
@@ -226,8 +264,21 @@ $codeBackgroundColor: $base03;
   }
 
 .reveal .seventy {
-  font-size: 75%;
+  font-size: 70%;
   }
+
+.reveal .nomargin div,
+.reveal .nomargin p,
+.reveal .nomargin > p,
+.reveal .nomargin ul,
+.reveal .nomargin ol,
+.reveal .nomargin li,
+.reveal .nomargin blockquote,
+.reveal .momargin img {
+  margin: 0;
+}
+
+
 
 .reveal .slides section .fragment.hightlight-green.visible {
   color: #4fa843;
@@ -246,39 +297,72 @@ $codeBackgroundColor: $base03;
 
 .reveal .slides>section,
 .reveal .slidex>section>section {
-  padding: 0px 0px;
+  padding: 0 0;
   }
 
+.reveal table,
+.reveal table th,
+.reveal table td {
+  border-width: 2px;
+  border-style: solid;
+  border-color: gray;
+  border-collapse: collapse;
+}
+
 .reveal table {
-      border-width: 1px;
-      border-spacing: 2px;
-      border-style: dotted;
-      border-color: gray;
-      border-collapse: collapse;
-      font-size: 0.7em;
-    }
+  border-spacing: 2px;
+  font-size: 0.7em;
+}
 
-    .reveal table th {
-      border-width: 1px;
-      padding-left: 10px;
-      padding-right: 25px;
-      font-weight: bold;
-      border-style: dotted;
-      border-color: gray;
-    }
+.reveal table th,
+.reveal table td {
+  padding-left: 10px;
+  padding-right: 25px;
+}
 
-    .reveal table td {
-      border-width: 1px;
-      padding-left: 10px;
-      padding-right: 25px;
-      border-style: dotted;
-      border-color: gray;
-    }
+.reveal table th {
+  font-weight: bold;
+}
+
+.reveal .bordered table,
+.reveal .bordered table thead,
+.reveal .bordered table tbody,
+.reveal .bordered table th,
+.reveal .bordered table tr,
+.reveal .bordered table td,
+.reveal table.bordered,
+.reveal table.bordered thead,
+.reveal table.bordered tbody,
+.reveal table.bordered th,
+.reveal table.bordered tr,
+.reveal table.bordered td {
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+}
 
 .reveal .noborder table,
+.reveal .noborder thead,
+.reveal .noborder tbody,
 .reveal .noborder th,
 .reveal .noborder tr,
-.reveal .noborder td {
+.reveal .noborder td,
+.reveal table.noborder,
+.reveal table.noborder thead,
+.reveal table.noborder tbody,
+.reveal table.noborder th,
+.reveal table.noborder tr,
+.reveal table.noborder td,
+.reveal img.noborder,
+.reveal .noborder img {
   border-style: none;
 }
 
+.reveal .leftlist ol,
+.reveal .leftlist ul {
+  width: 100%;
+}
+
+.reveal .stretch code {
+  max-height: 100%;
+}
