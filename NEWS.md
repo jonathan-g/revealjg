@@ -1,3 +1,8 @@
+## revealjs.js 0.9.9002
+
+* Add pandoc variable "hash" to configure template to tell reveal.js to add 
+  hashing to URLs.
+
 ## revealjs.jg 0.9.9001
 
 * Fix handling of markdown extensions to work with Pandoc 2.0.0.1

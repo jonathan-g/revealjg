@@ -231,6 +231,9 @@ revealjs_presentation <- function(incremental = FALSE,
   # use history
   args <- c(args, pandoc_variable_arg("history", "true"))
   
+  # use hash
+  args <- c(args, pandoc_variable_arg("hash", "true"))
+  
   # mathjax-scale
   if (! is.null(mathjax_scale)) {
     args <- c(args, pandoc_variable_arg("mathjax-scale", mathjax_scale))

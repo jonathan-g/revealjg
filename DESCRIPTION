@@ -1,8 +1,8 @@
 Package: revealjs.jg
 Type: Package
 Title: R Markdown Format for 'reveal.js' Presentations
-Version: 0.9.9001
-Date: 2017-11-05
+Version: 0.9.9002
+Date: 2019-08-30
 Authors@R: c(
     person("Hakim", "El Hattab", role = c("aut", "cph"),
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
@@ -11,7 +11,8 @@ Authors@R: c(
     person("Greg", "Denehy", role = c("ctb", "cph"),
        comment = "menu plugin"),
     person("JJ", "Allaire", role = c("aut"), email = "jj@rstudio.com"),
-    person("Jonathan", "Gilligan", role = c("aut", "cre"), email = "jonathan.gilligan@gmail.com"),
+    person("Jonathan", "Gilligan", role = c("aut", "cre"), email = "jonathan.gilligan@gmail.com",
+       comment = c(ORCID = "0000-0003-1375-6686")),
     person(family = "RStudio", role = "cph")
   )
 Description: R Markdown format for 'reveal.js' presentations, a framework 
