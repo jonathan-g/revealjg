@@ -1,3 +1,7 @@
+## revealjg 0.9.9003
+
+* Change package name to avoid non-alphanum characters.
+
 ## revealjs.js 0.9.9002
 
 * Add pandoc variable "hash" to configure template to tell reveal.js to add 

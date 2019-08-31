@@ -55,6 +55,7 @@ globalVariables(c(".", "extension", "value"))
 #' @param mathjax_scale Scale (in percent) for MathJax. Default = 100
 #' @param extra_dependencies Additional function arguments to pass to the base R
 #'   Markdown HTML output formatter [rmarkdown::html_document_base()].
+#' @param custom_plugins Add custom plugins to the list of supported plugins.
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -67,13 +68,13 @@ globalVariables(c(".", "extension", "value"))
 #' headers building vertically.
 #' 
 #' For additional documentation on using revealjs presentations see
-#' \href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
+#' \href{https://github.com/jonathan-g/revealjg}{https://github.com/jonathan-g/revealjg}.
 #' 
 #' @examples
 #' \dontrun{
 #' 
 #' library(rmarkdown)
-#' library(revealjs.jg)
+#' library(revealjg)
 #' 
 #' # simple invocation
 #' render("pres.Rmd", revealjs_presentation())
@@ -123,13 +124,14 @@ revealjs_presentation <- function(incremental = FALSE,
                                   lib_dir = NULL,
                                   pandoc_args = NULL,
                                   extra_dependencies = NULL,
+                                  custom_plugins = NULL,
                                   ...) {
   
   # function to lookup reveal resource
   reveal_resources <- function() {
     if(identical(resource_location, "default")) {
       system.file("rmarkdown/templates/revealjs_presentation/resources",
-                  package = "revealjs.jg")
+                  package = "revealjg")
     } else {
       resource_location
     }
@@ -268,13 +270,16 @@ revealjs_presentation <- function(incremental = FALSE,
   
   # reveal plugins
   if (is.character(reveal_plugins)) {
-    
+    message("plugins = [", str_c(reveal_plugins, collapse = ", "), "]")
     # validate that we need to use self_contained for plugins
     if (self_contained)
       stop("Using reveal_plugins requires self_contained: false")
     
     # validate specified plugins are supported
     supported_plugins <- c("notes", "search", "zoom", "chalkboard", "menu")
+    if (!is.null(custom_plugins)) {
+      supported_plugins <- c(supported_plugins, custom_plugins)
+    }
     invalid_plugins <- setdiff(reveal_plugins, supported_plugins)
     if (length(invalid_plugins) > 0)
       stop("The following plugin(s) are not supported: ",
@@ -283,10 +288,10 @@ revealjs_presentation <- function(incremental = FALSE,
     # add plugins
     sapply(reveal_plugins, function(plugin) {
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
-      if (plugin %in% c("chalkboard", "menu")) {
-        extra_dependencies <<- append(extra_dependencies,
-                                      list(rmarkdown::html_dependency_font_awesome()))
-      }
+      # if (plugin %in% c("chalkboard", "menu")) {
+      #   extra_dependencies <<- append(extra_dependencies,
+      #                                 list(rmarkdown::html_dependency_font_awesome()))
+      # }
     })
   }
   
@@ -362,7 +367,7 @@ revealjs_presentation <- function(incremental = FALSE,
     # reveal.js
     reveal_home <- paste0("reveal.js-", reveal_version)
     if (identical(reveal_location, "default")) {
-      revealjs_path <- system.file(reveal_home, package = "revealjs.jg")
+      revealjs_path <- system.file(reveal_home, package = "revealjg")
       if (identical(revealjs_path, '')) {
         message('Empty revealjs_path')
         revealjs_path <- file.path(lib_dir, reveal_home)

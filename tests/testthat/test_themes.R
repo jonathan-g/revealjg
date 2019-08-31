@@ -18,7 +18,7 @@ test_theme <- function(theme) {
     testdoc <- "testdoc.Rmd"
     rmarkdown::draft(testdoc,
                      system.file("rmarkdown", "templates", "revealjs_presentation",
-                                 package = "revealjs.jg"),
+                                 package = "revealjg"),
                      create_dir = FALSE,
                      edit = FALSE)
 
@@ -35,4 +35,4 @@ test_theme <- function(theme) {
 }
 
 # test all themes
-sapply(revealjs.jg:::revealjs_themes(), test_theme)
+sapply(revealjg:::revealjs_themes(), test_theme)

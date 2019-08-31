@@ -13,7 +13,7 @@ This repository provides an [R Markdown](http://rmarkdown.rstudio.com) custom fo
 You can use this format in R Markdown documents by installing this package as follows:
 
 ```r
-install.packages("revealjs.jg", type = "source")
+install.packages("revealjg", type = "source")
 ```
 
 
@@ -23,7 +23,7 @@ To create a [reveal.js](http://lab.hakim.se/reveal-js/#/) presentation from R Ma
     title: "Habits"
     author: John Doe
     date: March 22, 2005
-    output: revealjs.jg::revealjs_presentation
+    output: revealjg::revealjs_presentation
     ---
 
     # In the morning
@@ -105,7 +105,7 @@ You can render bullets incrementally by adding the `incremental` option:
 
     ---
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         incremental: true
     ---
 
@@ -131,7 +131,7 @@ For example:
 
     ---
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         theme: sky
         highlight: pygments
         center: true
@@ -149,7 +149,7 @@ For example:
 
     ---
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         transition: fade
     ---
 
@@ -204,7 +204,7 @@ Reveal.js has many additional options to configure it's behavior. You can specif
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         self_contained: false
         reveal_options:
           slideNumber: true
@@ -229,7 +229,7 @@ For example:
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         fig_width: 7
         fig_height: 6
         fig_caption: true
@@ -253,7 +253,7 @@ For example, to use a local copy of MathJax:
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         mathjax: local
         self_contained: false
     ---
@@ -263,7 +263,7 @@ To use a self-hosted copy of MathJax:
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         mathjax: "http://example.com/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
     ---
 
@@ -272,7 +272,7 @@ To exclude MathJax entirely:
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         mathjax: null
     ---
 
@@ -283,7 +283,7 @@ By default R Markdown produces standalone HTML files with no external dependenci
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         self_contained: false
     ---
 
@@ -294,7 +294,7 @@ One common reason keep dependencies external is for serving R Markdown documents
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         self_contained: false
         lib_dir: libs
     ---
@@ -347,7 +347,7 @@ You can do more advanced customization of output by including additional HTML co
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         includes:
           in_header: header.html
           before_body: doc_prefix.html
@@ -362,7 +362,7 @@ If there are pandoc features you want to use that lack equivalents in the YAML o
     ---
     title: "Habits"
     output:
-      revealjs.jg::revealjs_presentation:
+      revealjg::revealjs_presentation:
         pandoc_args: [
           "--title-prefix", "Foo",
           "--id-prefix", "Bar"
@@ -378,7 +378,7 @@ If you want to specify a set of default options to be shared by multiple documen
 **\_output.yaml**
 
 ```yaml
-revealjs.jg::revealjs_presentation:
+revealjg::revealjs_presentation:
   theme: sky
   transition: fade
   highlight: pygments

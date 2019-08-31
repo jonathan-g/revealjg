@@ -18,7 +18,8 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   mathjax_scale = NULL, tex_extensions = NULL, tex_defs = NULL,
   template = "default", css = NULL, includes = NULL,
   md_extensions = NULL, keep_md = FALSE, lib_dir = NULL,
-  pandoc_args = NULL, extra_dependencies = NULL, ...)
+  pandoc_args = NULL, extra_dependencies = NULL,
+  custom_plugins = NULL, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -140,6 +141,8 @@ bootstrap, etc.) into. By default this will be the name of the document with
 \item{extra_dependencies}{Additional function arguments to pass to the base R
 Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}.}
 
+\item{custom_plugins}{Add custom plugins to the list of supported plugins.}
+
 \item{...}{Ignored}
 }
 \value{
@@ -155,13 +158,13 @@ will be produced, with level 1 headers building horizontally and level 2
 headers building vertically.
 
 For additional documentation on using revealjs presentations see
-\href{https://github.com/jonathan-g/revealjs.jg}{https://github.com/jonathan-g/revealjs.jg}.
+\href{https://github.com/jonathan-g/revealjg}{https://github.com/jonathan-g/revealjg}.
 }
 \examples{
 \dontrun{
 
 library(rmarkdown)
-library(revealjs.jg)
+library(revealjg)
 
 # simple invocation
 render("pres.Rmd", revealjs_presentation())
