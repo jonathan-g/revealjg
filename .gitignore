@@ -3,3 +3,4 @@
 .RData
 *.bak
 node_modules
+*.Rproj
