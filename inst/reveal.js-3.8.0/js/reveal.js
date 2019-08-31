@@ -4970,13 +4970,28 @@
 	 * 3) Previous horizontal slide
 	 */
 	function navigatePrev() {
-
 		// Prioritize revealing fragments
 		if( previousFragment() === false ) {
+			let up = false;
 			if( availableRoutes().up ) {
+				let v = indexv - 1;
+				let parent = currentSlide.parentNode;
+				up = ( parent.children[v].getAttribute('data-skip') !== 'true' &&
+				       parent.children[v].getAttribute('data-state') !== 'skip_slide' );
+				// console.log("up initialized = " + up + " at v = " + v);
+				while (v > 0 && ! up ) {
+					v--;
+					up = ( parent.children[v].getAttribute('data-skip') !== 'true' &&
+					       parent.children[v].getAttribute('data-state') !== 'skip_slide' );
+					// console.log("up updated to = " + up + " at v = " + v);
+				}
+			}
+			if (up) {
+				// console.log("navigating up");
 				navigateUp();
 			}
 			else {
+				// console.log("navigating horizontally...");
 				// Fetch the previous horizontal slide, if there is one
 				var previousSlide;
 
@@ -4994,7 +5009,6 @@
 				}
 			}
 		}
-
 	}
 
 	/**
