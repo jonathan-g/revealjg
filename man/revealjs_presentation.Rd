@@ -9,7 +9,7 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   fig_width = 8, fig_height = 6, fig_retina = if (!fig_caption) 2,
   fig_caption = FALSE, smart = TRUE, self_contained = TRUE,
   theme = "simple", custom_theme = NULL, custom_theme_dark = FALSE,
-  custom_theme_path = NULL, transition = "default",
+  custom_asset_path = NULL, transition = "default",
   custom_transition = NULL, background_transition = "default",
   custom_background_transition = NULL, reveal_options = NULL,
   reveal_plugins = NULL, reveal_version = "3.5.0.1",
@@ -67,7 +67,7 @@ document is an intermediate file unless \code{keep_tex = TRUE}.}
 
 \item{custom_theme_dark}{Does the custom theme use a dark-mode?}
 
-\item{custom_theme_path}{Path to custom theme css.}
+\item{custom_asset_path}{Path to custom theme css.}
 
 \item{transition}{Slide transition ("default", "none", "fade", "slide",
 "convex", "concave" or "zoom")}

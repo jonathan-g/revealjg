@@ -47,7 +47,7 @@ globalVariables(c(".", "extension", "value"))
 #'   created. Note that if you don't use the "default" template then some
 #'   features of \code{revealjs_presentation} won't be available (see the
 #'   Templates section below for more details).
-#' @param custom_theme_path Path to custom theme css.
+#' @param custom_asset_path Path to custom theme css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
 #' @param tex_extensions LaTeX extensions for MathJax
 #' @param tex_defs LaTeX macro definitions for MathJax
@@ -99,7 +99,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   theme = "simple",
                                   custom_theme = NULL,
                                   custom_theme_dark = FALSE,
-                                  custom_theme_path = NULL,
+                                  custom_asset_path = NULL,
                                   transition = "default",
                                   custom_transition = NULL,
                                   background_transition = "default",
@@ -370,28 +370,27 @@ revealjs_presentation <- function(incremental = FALSE,
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
-    if (identical(custom_theme_path, "default")) {
-      custom_theme_path <-  revealjs_path
+    if (identical(custom_asset_path, "default")) {
+      custom_asset_path <-  revealjs_path
     }
     if (!self_contained || identical(.Platform$OS.type, "windows")) {
       message("revealjs_path = ", revealjs_path, 
-              ", custom_theme_path = ", custom_theme_path, 
+              ", custom_asset_path = ", custom_asset_path, 
               "current directory = ", getwd(), ", output_dir = ",
               output_dir)
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
-      custom_theme_path <- relative_to(output_dir, custom_theme_path)
+      custom_asset_path <- relative_to(output_dir, custom_asset_path)
       message("revealjs_path = ", revealjs_path, 
-              ", custom_theme_path = ", custom_theme_path, 
+              ", custom_asset_path = ", custom_asset_path, 
               "current directory = ", getwd(), ", output_dir = ",
               output_dir)
     }else  {
       revealjs_path <- pandoc_path_arg(revealjs_path)
-      custom_theme_path <- pandoc_path_arg(custom_theme_path)
+      custom_asset_path <- pandoc_path_arg(custom_asset_path)
     }
     args <- c(args, pandoc_variable_arg("revealjs-url", revealjs_path))
-    if (is.null(theme) && ! is.null(custom_theme))
-      args <- c(args, pandoc_variable_arg("local-theme-url", custom_theme_path))
+    args <- c(args, pandoc_variable_arg("local-asset-url", custom_asset_path))
     
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
