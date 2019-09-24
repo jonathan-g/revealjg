@@ -56,6 +56,7 @@ globalVariables(c(".", "extension", "value"))
 #' @param extra_dependencies Additional function arguments to pass to the base R
 #'   Markdown HTML output formatter [rmarkdown::html_document_base()].
 #' @param custom_plugins Add custom plugins to the list of supported plugins.
+#' @param no_postprocess Omit the post-processing step.
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -466,7 +467,7 @@ revealjs_presentation <- function(incremental = FALSE,
 #' * {+3:red} This fragment has index 6 and highlights in red.
 #' * {+2:grow} This fragment grows when it's activated
 #' * {.fragment .grow data-fragment-index="1"} This fragment grows at the same time the first one appears.
-#' ````
+#' ```
 #' 
 postprocessor_function <- function(metadata, input_file, output_file, clean, verbose) {
     ht <- xml2::read_html(output_file)

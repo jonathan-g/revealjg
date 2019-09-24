@@ -19,7 +19,7 @@ revealjs_presentation(incremental = FALSE, center = FALSE,
   template = "default", css = NULL, includes = NULL,
   md_extensions = NULL, keep_md = FALSE, lib_dir = NULL,
   pandoc_args = NULL, extra_dependencies = NULL,
-  custom_plugins = NULL, ...)
+  custom_plugins = NULL, no_postprocess = FALSE, ...)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -142,6 +142,8 @@ bootstrap, etc.) into. By default this will be the name of the document with
 Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}.}
 
 \item{custom_plugins}{Add custom plugins to the list of supported plugins.}
+
+\item{no_postprocess}{Omit the post-processing step.}
 
 \item{...}{Ignored}
 }
