@@ -1,13 +1,13 @@
 globalVariables(c(".", "extension", "value"))
 
 #' Convert to a reveal.js presentation
-#' 
+#'
 #' Format for converting from R Markdown to a reveal.js presentation.
-#' 
+#'
 #' @inheritParams rmarkdown::beamer_presentation
 #' @inheritParams rmarkdown::pdf_document
 #' @inheritParams rmarkdown::html_document
-#'   
+#'
 #' @param center \code{TRUE} to vertically center content on slides
 #' @param controls \code{TRUE} to show navigation controls on slides
 #' @param width \code{NULL} to override default width (pixels)
@@ -22,15 +22,15 @@ globalVariables(c(".", "extension", "value"))
 #'   "blood", "moon", "night", "black", "league" or "white").
 #' @param custom_theme Custom theme, not included in reveal.js distribution
 #' @param custom_theme_dark Does the custom theme use a dark-mode?
-#' @param transition Slide transition ("default", "none", "fade", "slide", 
+#' @param transition Slide transition ("default", "none", "fade", "slide",
 #'   "convex", "concave" or "zoom")
 #' @param custom_transition Custom slide transition, not included in reveal.js
 #'   distribuion.
 #' @param background_transition Slide background-transition ("default", "none",
 #'   "fade", "slide", "convex", "concave" or "zoom")
-#' @param custom_background_transition Custom background-transition, not 
+#' @param custom_background_transition Custom background-transition, not
 #'   included in reveal.js distribuion.
-#' @param reveal_options Additional options to specify for reveal.js (see 
+#' @param reveal_options Additional options to specify for reveal.js (see
 #'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 #'   for details).
 #' @param reveal_plugins Reveal plugins to include. Available plugins include
@@ -38,8 +38,8 @@ globalVariables(c(".", "extension", "value"))
 #'   \code{self_contained} must be set to \code{FALSE} in order to use Reveal
 #'   plugins.
 #' @param reveal_version Version of reveal.js to use.
-#' @param reveal_location Location to search for reveal.js (Expects to find 
-#' reveal.js distribution at 
+#' @param reveal_location Location to search for reveal.js (Expects to find
+#' reveal.js distribution at
 #' \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}
 #' @param template Pandoc template to use for rendering. Pass "default" to use
 #'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
@@ -58,33 +58,33 @@ globalVariables(c(".", "extension", "value"))
 #' @param custom_plugins Add custom plugins to the list of supported plugins.
 #' @param no_postprocess Omit the post-processing step.
 #' @param ... Ignored
-#'   
+#'
 #' @return R Markdown output format to pass to \code{\link{render}}
-#'   
+#'
 #' @details
-#' 
+#'
 #' In reveal.js presentations you can use level 1 or level 2 headers for slides.
 #' If you use a mix of level 1 and level 2 headers then a two-dimensional layout
 #' will be produced, with level 1 headers building horizontally and level 2
 #' headers building vertically.
-#' 
+#'
 #' For additional documentation on using revealjs presentations see
 #' \href{https://github.com/jonathan-g/revealjg}{https://github.com/jonathan-g/revealjg}.
-#' 
+#'
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' library(rmarkdown)
 #' library(revealjg)
-#' 
+#'
 #' # simple invocation
 #' render("pres.Rmd", revealjs_presentation())
-#' 
+#'
 #' # specify an option for incremental rendering
 #' render("pres.Rmd", revealjs_presentation(incremental = TRUE))
 #' }
-#' 
-#' 
+#'
+#'
 #' @export
 revealjs_presentation <- function(incremental = FALSE,
                                   center = FALSE,
@@ -108,7 +108,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
-                                  reveal_version = "3.5.0.1",
+                                  reveal_version = "3.8.0",
                                   reveal_location = "default",
                                   resource_location = "default",
                                   controls = FALSE,
@@ -128,7 +128,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_plugins = NULL,
                                   no_postprocess = FALSE,
                                   ...) {
-  
+
   # function to lookup reveal resource
   reveal_resources <- function() {
     if(identical(resource_location, "default")) {
@@ -138,10 +138,10 @@ revealjs_presentation <- function(incremental = FALSE,
       resource_location
     }
   }
-  
+
   # base pandoc options for all reveal.js output
   args <- c()
-  
+
   # template path and assets
   if (identical(template, "default")) {
     default_template <- file.path(reveal_resources(), "default.html")
@@ -157,18 +157,18 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c(args, "--template",
               pandoc_path_arg(template))
   }
-  
+
   # incremental
   if (incremental)
     args <- c(args, "--incremental")
-  
+
   # centering
   jsbool <- function(value) ifelse(value, "true", "false")
   args <- c(args, pandoc_variable_arg("center", jsbool(center)))
-  
+
   # controls
   args <- c(args, pandoc_variable_arg("controls", jsbool(controls)))
-  
+
   # width and height
   if (! is.null(width))
     args <- c(args, "--variable", paste0("revealjs-width=", width))
@@ -176,15 +176,15 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c(args, "--variable", paste0("revealjs-height=", height))
   if (! is.null(margin))
     args <- c(args, "--variable", paste0("revealjs-margin=", margin))
-  
+
   # slide level
   args <- c(args, "--slide-level", as.character(slide_level))
-  
+
   # theme
   theme <- match.arg(theme, revealjs_themes())
   theme_dark <- FALSE
   if (identical(theme, "custom")) {
-    if (is.null(custom_theme)) 
+    if (is.null(custom_theme))
     {
       stop("Missing custom_theme in YAML header")
     } else {
@@ -207,8 +207,8 @@ revealjs_presentation <- function(incremental = FALSE,
   } else {
     args <- c(args, pandoc_variable_arg("theme", theme))
   }
-  
-  
+
+
   # transition
   transition <- match.arg(transition, revealjs_transitions())
   if (identical(transition, "custom")) {
@@ -220,7 +220,7 @@ revealjs_presentation <- function(incremental = FALSE,
     }
   }
   args <- c(args, pandoc_variable_arg("transition", transition))
-  
+
   # background_transition
   background_transition <- match.arg(background_transition, revealjs_transitions())
   if (identical(background_transition, 'custom')) {
@@ -231,21 +231,21 @@ revealjs_presentation <- function(incremental = FALSE,
     }
   }
   args <- c(args, pandoc_variable_arg("backgroundTransition", background_transition))
-  
+
   # use history
   args <- c(args, pandoc_variable_arg("history", "true"))
-  
+
   # use hash
   args <- c(args, pandoc_variable_arg("hash", "true"))
-  
+
   # mathjax-scale
   if (! is.null(mathjax_scale)) {
     args <- c(args, pandoc_variable_arg("mathjax-scale", mathjax_scale))
   }
-  
+
   # additional reveal options
   if (is.list(reveal_options)) {
-    
+
     add_reveal_option <- function(option, value) {
       if (is.logical(value))
         value <- jsbool(value)
@@ -253,7 +253,7 @@ revealjs_presentation <- function(incremental = FALSE,
         value <- paste0("'", value, "'")
       args <<- c(args, pandoc_variable_arg(option, value))
     }
-    
+
     for (option in names(reveal_options)) {
       # special handling for nested options
       if (option %in% c("chalkboard", "menu")) {
@@ -269,14 +269,14 @@ revealjs_presentation <- function(incremental = FALSE,
       }
     }
   }
-  
+
   # reveal plugins
   if (is.character(reveal_plugins)) {
     message("plugins = [", str_c(reveal_plugins, collapse = ", "), "]")
     # validate that we need to use self_contained for plugins
     if (self_contained)
       stop("Using reveal_plugins requires self_contained: false")
-    
+
     # validate specified plugins are supported
     supported_plugins <- c("notes", "search", "zoom", "chalkboard", "menu")
     if (!is.null(custom_plugins)) {
@@ -286,7 +286,7 @@ revealjs_presentation <- function(incremental = FALSE,
     if (length(invalid_plugins) > 0)
       stop("The following plugin(s) are not supported: ",
            paste(invalid_plugins, collapse = ", "), call. = FALSE)
-    
+
     # add plugins
     sapply(reveal_plugins, function(plugin) {
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
@@ -296,76 +296,76 @@ revealjs_presentation <- function(incremental = FALSE,
       # }
     })
   }
-  
+
   # TeX extensions for MathJax
   if (! is.null(tex_extensions)) {
     args <- c(args, sapply(tex_extensions, function(ext) {
       pandoc_variable_arg('tex-extensions', ext)
     }))
   }
-  
+
   # TeX macro definitions for MathJax
   if (! is.null(tex_defs)) {
     args <- c(args, sapply(tex_defs, function(x) {
-      pandoc_variable_arg('tex-defs', 
+      pandoc_variable_arg('tex-defs',
                           gsub('\\','\\\\',
                                paste0(x$name, ': "', x$def, '"'),
                                fixed=TRUE))
     }))
   }
-  
+
   # content includes
   args <- c(args, includes_to_pandoc_args(includes))
-  
+
   # additional css
   for (css_file in css)
     args <- c(args, "--css", pandoc_path_arg(css_file))
-  
-  
+
+
   markdown_extensions <- tibble::tibble(
     extension = c("implicit_figures", "smart", "markdown_in_html_blocks"),
     value = c(fig_caption, smart, TRUE)
   )
-  
+
   # message("Base extensions = [", str_c(markdown_extensions, collapse = ", "), "]")
-  
+
   if(! is.null(md_extensions)) {
-    user_md_extensions = str_extract_all(md_extensions, "([+-])([A-Za-z0-9_]+)") %>% 
-      simplify() %>% tibble(extension = .) %>% 
+    user_md_extensions = str_extract_all(md_extensions, "([+-])([A-Za-z0-9_]+)") %>%
+      simplify() %>% tibble(extension = .) %>%
       mutate(value = str_detect(extension, '^\\+'), extension = str_sub(extension, 2))
-    
+
     # message("User extensions = [", str_c(md_extensions, collapse = ", "), "]")
     # message("Processed User extensions = [", str_c(user_md_extensions, collapse = ", "), "]")
-    
-    markdown_extensions <- markdown_extensions %>% 
+
+    markdown_extensions <- markdown_extensions %>%
       filter(! extension %in% user_md_extensions$extension) %>%
       bind_rows(user_md_extensions)
   }
-  
-  markdown_extensions <- markdown_extensions %>% 
+
+  markdown_extensions <- markdown_extensions %>%
     transmute(string = str_c(ifelse(value, "+", "-"), extension)) %>%
     simplify() %>% str_c(collapse = "")
-  
+
   # message("Merged extensions = [", str_c(markdown_extensions, collapse = ", "), "]")
-  
+
   # pre-processor for arguments that may depend on the name of the
   # the input file (e.g. ones that need to copy supporting files)
   pre_processor <- function(metadata, input_file, runtime, knit_meta, files_dir,
                             output_dir) {
-    
+
     # we don't work with runtime shiny
     if (identical(runtime, "shiny")) {
-      stop("revealjs_presentation is not compatible with runtime 'shiny'", 
+      stop("revealjs_presentation is not compatible with runtime 'shiny'",
            call. = FALSE)
     }
-    
+
     # use files_dir as lib_dir if not explicitly specified
     if (is.null(lib_dir))
       lib_dir <- files_dir
-    
+
     # extra args
     args <- c()
-    
+
     # reveal.js
     reveal_home <- paste0("reveal.js-", reveal_version)
     if (identical(reveal_location, "default")) {
@@ -381,15 +381,15 @@ revealjs_presentation <- function(incremental = FALSE,
       custom_asset_path <-  revealjs_path
     }
     if (!self_contained || identical(.Platform$OS.type, "windows")) {
-      message("revealjs_path = ", revealjs_path, 
-              ", custom_asset_path = ", custom_asset_path, 
+      message("revealjs_path = ", revealjs_path,
+              ", custom_asset_path = ", custom_asset_path,
               "current directory = ", getwd(), ", output_dir = ",
               output_dir)
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
       custom_asset_path <- relative_to(output_dir, custom_asset_path)
-      message("revealjs_path = ", revealjs_path, 
-              ", custom_asset_path = ", custom_asset_path, 
+      message("revealjs_path = ", revealjs_path,
+              ", custom_asset_path = ", custom_asset_path,
               "current directory = ", getwd(), ", output_dir = ",
               output_dir)
     }else  {
@@ -398,20 +398,20 @@ revealjs_presentation <- function(incremental = FALSE,
     }
     args <- c(args, pandoc_variable_arg("revealjs-url", revealjs_path))
     args <- c(args, pandoc_variable_arg("local-asset-url", custom_asset_path))
-    
+
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
-    
+
     # return additional args
     args
   }
-  
+
   if (no_postprocess) {
     postprocessor = NULL
   } else {
-    postprocessor = postprocessor_function
+    postprocessor = revealjg_postprocessor
   }
-  
+
   # return format
   output_format(
     knitr = knitr_options_html(fig_width, fig_height, fig_retina, keep_md),
@@ -425,140 +425,11 @@ revealjs_presentation <- function(incremental = FALSE,
     base_format = html_document_base(smart = FALSE, lib_dir = lib_dir,
                                      self_contained = self_contained,
                                      mathjax = mathjax,
-                                     pandoc_args = pandoc_args, 
+                                     pandoc_args = pandoc_args,
                                      extra_dependencies = extra_dependencies,
                                      ...))
 }
 
-#' Postprocess a reveal.js HTML file
-#' 
-#' Postprocesses a reveal.js HTML file to modify list items with user-supplied
-#' classes.
-#' 
-#' This function is predominantly intended for giving finer-scale control to
-#' fragments in lists. From the RMarkdown perspective, a list item can be
-#' modified by adding metadata in curly braces immediately after the `*`. 
-#' 
-#' The contents of the braces are parsed for classes and fragment indices.
-#' Examples include:
-#' 
-#' ```
-#' * {.fragment} This is a simple fragment.
-#' * {+} This is another simple fragment.
-#' ```
-#' 
-#' You can also play with fragment indices to control the order in which 
-#' fragments appear, but if you do then you need to set the indices for every
-#' fragment in the list. You can also add classes to control what the fragments
-#' do when they're activated.
-#' 
-#' @param metadata YAML metadata passed by \code{rmarkdown::render}
-#' @param input_file The RMarkdown source file
-#' @param output_file The HTML file produced by Pandoc
-#' @param clean A logical value indicating whether to delete the intermediate
-#'   files after rendering.
-#' @param verbose Issue verbose progress reports while rendering.
-#' 
-#' @return A character string with the name of the output file.
-#' 
-#' ```
-#' * {+4} This has index 4, so it appears out of order
-#' * {+1:blue} This fragment uses the `highlight-blue` class.
-#' * {+3:red} This fragment has index 6 and highlights in red.
-#' * {+2:grow} This fragment grows when it's activated
-#' * {.fragment .grow data-fragment-index="1"} This fragment grows at the same time the first one appears.
-#' ```
-#' 
-postprocessor_function <- function(metadata, input_file, output_file, clean, verbose) {
-    ht <- xml2::read_html(output_file)
-    nodes <- xml2::xml_find_all(ht, xpath = "//*/li[starts-with(normalize-space(text()), '{')]")
-    alt_nodes <- xml2::xml_find_all(ht, xpath = "//*/li[normalize-space(text()) = '']/p[(position() = 1) and starts-with(normalize-space(text()), '{')]")
-    li_nodes <- nodes %>% purrr::keep(~xml2::xml_name(xml2::xml_contents(.x)[1]) == "text" &&
-                                        stringr::str_detect(xml2::xml_text(xml2::xml_contents(.x)[1]), "^ *\\{[^{]"))
-    alt_li_nodes <- alt_nodes %>% purrr::keep(~xml2::xml_name(xml2::xml_contents(.x)[1]) == "text" &&
-                                                stringr::str_detect(xml2::xml_text(xml2::xml_contents(.x)[1]), "^ *\\{[^{]"))
-    if (verbose) {
-      message("Found ", length(li_nodes), " regular nodes and ", length(alt_li_nodes), " alt nodes.")
-    }
-    index <- 0
-    for (n in c(li_nodes, alt_li_nodes)) {
-      index <- index + 1
-      if (verbose) {
-        message("Node ", index, ": ", n)
-      }
-      head_text <- xml2::xml_contents(n)[1]
-      if (xml2::xml_name(head_text) != "text") {
-        warning("head_text has type \"", xml2::xml_name(head_text), "\"")
-      }
-      parts <- stringr::str_match(xml2::xml_text(head_text),
-                                  "^ *\\{(?<meta>[^}]+)\\} *(?<rest>.*)$")[1,]
-      meta <- stringr::str_trim(parts[2])
-      rest <- parts[3]
-      frag <- stringr::str_starts(meta, stringr::fixed("+"))
-      
-      idx  <- stringr::str_match(meta, "^\\+([^[:digit:]]* )?([[:digit:]]+)")[1,3]
-      if (is.na(idx)) {
-        idx <- stringr::str_match(meta, "(?<![^[:space:]])([[:digit:]]+)(?![^[:space:]])")[1,2]
-      }
-      if (is.na(idx)) {
-        idx <- stringr::str_match(meta, "(?<!^[:space:]])data-fragment-index *= *['\"]([[:digit:]]+)['\"](?![^[:space:]])")[1,2]
-      }
-      if (! is.na(idx)) {
-        idx <- as.integer(idx)
-      }
-      
-      classes <- stringr::str_match_all(meta, "(?<![^[:space:]])\\.([a-zA-Z-]+(?![^[:space:]]))")[[1]][,2]
-      if ("fragment" %in% classes) {
-        frag <- TRUE
-      } else if (frag) {
-        classes <- c(classes, "fragment")
-      }
-      
-      x_class <- stringr::str_match(meta, "^\\+[^:]*:([a-z-]+)")[1,2]
-      if (! is.na(x_class)) {
-        if (stringr::str_detect(x_class, "red|green|blue")) {
-          x_class <- stringr::str_c("highlight", x_class, sep = "-")
-        }
-        classes <- c(classes, x_class)
-      }
-      classes <- unique(classes)
-      
-      if (frag) {
-        n_name <- xml2::xml_name(n)
-        if (n_name == "li") {
-          np <- n
-        } else {
-          if (n_name != "p") {
-            warning("node isn't li or p: it's ", n_name)
-          }
-          np <- xml2::xml_parent(n)
-          p_name <- xml2::xml_name(np)
-          if (p_name != "li") {
-            warning("parent of ", n_name, " is a ", p_name)
-          }
-        }
-        node_classes <- xml2::xml_attr(np, "class")
-        if (!is.na(node_classes)) {
-          node_classes <- stringr::str_split(node_classes, " ")[[1]]
-          classes <- c(classes, node_classes)
-        }
-        classes <- classes %>% unique() %>% stringr::str_c(collapse = " ") %>% stringr::str_trim()
-        xml2::xml_set_attr(np, "class", classes)
-        if (! is.na(idx)) {
-          xml2::xml_set_attr(np, "data-fragment-index", idx)
-        }
-        xml2::xml_set_text(n, rest)
-      }
-    }
-    if (!clean) {
-      temp_file <- file.path(dirname(output_file), stringr::str_c("tmp_", basename(output_file)))
-      if (file.exists(temp_file)) {
-        file.remove(temp_file)
-      }
-      file.rename(output_file, temp_file)
-    }
-    xml2::write_html(ht, file = output_file)
-  }
 
 revealjs_themes <- function() {
   c("default",
