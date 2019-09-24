@@ -38,6 +38,9 @@
 #' ```
 #'
 revealjg_postprocessor <- function(metadata, input_file, output_file, clean, verbose) {
+  if (verbose) {
+    message("Revealjg postprocessor starting...")
+  }
   ht <- xml2::read_html(output_file)
   nodes <- xml2::xml_find_all(ht, xpath = "//*/li[starts-with(normalize-space(text()), '{')]")
   alt_nodes <- xml2::xml_find_all(ht, xpath = "//*/li[normalize-space(text()) = '']/p[(position() = 1) and starts-with(normalize-space(text()), '{')]")
@@ -92,19 +95,43 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
     }
 
     # Classes specified by initial colon.
-    x_class <- stringr::str_match_all(meta, "(?<![^[:space:]]):([a-z-]+)(?![^[:space:]])")[[1]][1,2]
-    if (! is.na(x_class)) {
+    x_class <- stringr::str_match_all(meta, ":([a-z-]+)")[[1]][,2]
+    if (verbose) {
+      message("Found ", length(x_class), " x-classes")
+    }
+    if (length(x_class) > 0) {
+      if (verbose) {
+        message("x_class = [", stringr::str_c(x_class, collapse = ", "), "]")
+      }
       c_class <- x_class %>% purrr::keep(~stringr::str_detect(.x, "^(red|green|blue)"))
       x_class <- x_class %>% setdiff(c_class)
-      c_class <- stringr::str_c("highlight", c_class, sep = "-")
       cc_class <- x_class %>% purrr::keep(~stringr::str_detect(.x, "^c(red|green|blue)"))
       x_class <- x_class %>% setdiff(cc_class)
-      cc_class <- cc_class %>%
-        stringr::str_replace("^c(red|green|blue)", "\\1") %>%
-        stringr::str_c("highlight", "current", cc_class, sep = "-")
+      if (verbose) {
+        message("x_class = [", stringr::str_c(x_class, collapse = ", "), "]")
+        message("c_class = [", stringr::str_c(c_class, collapse = ", "), "]")
+        message("cc_class = [", stringr::str_c(cc_class, collapse = ", "), "]")
+      }
+      if (length(c_class) > 0) {
+        c_class <- stringr::str_c("highlight", c_class, sep = "-")
+      }
+      if (length(cc_class) > 0) {
+        cc_class <- cc_class %>%
+          stringr::str_replace("^c(red|green|blue)", "\\1") %>%
+          stringr::str_c("highlight", "current", ., sep = "-")
+      }
+      if (verbose) {
+        message("x_class = [", stringr::str_c(x_class, collapse = ", "), "]")
+        message("c_class = [", stringr::str_c(c_class, collapse = ", "), "]")
+        message("cc_class = [", stringr::str_c(cc_class, collapse = ", "), "]")
+      }
       classes <- c(classes, x_class, c_class, cc_class)
     }
     classes <- unique(classes)
+
+    if (verbose) {
+      message("Classes = [", stringr::str_c(classes, collapse = ", "), "]")
+    }
 
     if (frag) {
       n_name <- xml2::xml_name(n)
@@ -133,6 +160,10 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
       xml2::xml_set_text(n, rest)
     }
   }
+
+  if (verbose) {
+    message("Getting ready to write file to disk.")
+  }
   if (!clean) {
     temp_file <- file.path(dirname(output_file), stringr::str_c("tmp_", basename(output_file)))
     if (file.exists(temp_file)) {
@@ -141,4 +172,5 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
     file.rename(output_file, temp_file)
   }
   xml2::write_html(ht, file = output_file)
+  output_file
 }

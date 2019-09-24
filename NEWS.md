@@ -1,3 +1,8 @@
+## revealjg 0.9.9005
+
+* A few bug fixes around the possibility of multiple classes for a list entry
+  using the colon format.
+
 ## revealjg 0.9.9004
 
 * Add a postprocessing function to modify the HTML file and allow customization
