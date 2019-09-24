@@ -324,14 +324,14 @@ revealjs_presentation <- function(incremental = FALSE,
     extension = c("implicit_figures", "smart", "markdown_in_html_blocks"),
     value = c(fig_caption, smart, TRUE)
   )
-
+  
   # message("Base extensions = [", str_c(markdown_extensions, collapse = ", "), "]")
   
   if(! is.null(md_extensions)) {
     user_md_extensions = str_extract_all(md_extensions, "([+-])([A-Za-z0-9_]+)") %>% 
       simplify() %>% tibble(extension = .) %>% 
       mutate(value = str_detect(extension, '^\\+'), extension = str_sub(extension, 2))
-   
+    
     # message("User extensions = [", str_c(md_extensions, collapse = ", "), "]")
     # message("Processed User extensions = [", str_c(user_md_extensions, collapse = ", "), "]")
     
@@ -339,7 +339,7 @@ revealjs_presentation <- function(incremental = FALSE,
       filter(! extension %in% user_md_extensions$extension) %>%
       bind_rows(user_md_extensions)
   }
-
+  
   markdown_extensions <- markdown_extensions %>% 
     transmute(string = str_c(ifelse(value, "+", "-"), extension)) %>%
     simplify() %>% str_c(collapse = "")
@@ -413,12 +413,127 @@ revealjs_presentation <- function(incremental = FALSE,
     keep_md = keep_md,
     clean_supporting = self_contained,
     pre_processor = pre_processor,
+    post_processor = postprocess,
     base_format = html_document_base(smart = FALSE, lib_dir = lib_dir,
                                      self_contained = self_contained,
                                      mathjax = mathjax,
                                      pandoc_args = pandoc_args, 
                                      extra_dependencies = extra_dependencies,
                                      ...))
+}
+
+#' Postprocess a reveal.js HTML file
+#' 
+#' Postprocesses a reveal.js HTML file to modify list items with user-supplied
+#' classes.
+#' 
+#' This function is predominantly intended for giving finer-scale control to
+#' fragments in lists. From the RMarkdown perspective, a list item can be
+#' modified by adding metadata in curly braces immediately after the `*`. 
+#' 
+#' The contents of the braces are parsed for classes and fragment indices.
+#' Examples include:
+#' 
+#' ```
+#' * {.fragment} This is a simple fragment.
+#' * {+} This is another simple fragment.
+#' ```
+#' 
+#' You can also play with fragment indices to control the order in which 
+#' fragments appear, but if you do then you need to set the indices for every
+#' fragment in the list. You can also add classes to control what the fragments
+#' do when they're activated.
+#' 
+#' @param metadata YAML metadata passed by \code{rmarkdown::render}
+#' @param input_file The RMarkdown source file
+#' @param output_file The HTML file produced by Pandoc
+#' @param clean A logical value indicating whether to delete the intermediate
+#'   files after rendering.
+#' @param verbose Issue verbose progress reports while rendering.
+#' 
+#' @return A character string with the name of the output file.
+#' 
+#' ```
+#' * {+4} This has index 4, so it appears out of order
+#' * {+1:blue} This fragment uses the `highlight-blue` class.
+#' * {+3:red} This fragment has index 6 and highlights in red.
+#' * {+2:grow} This fragment grows when it's activated
+#' * {.fragment .grow data-fragment-index="1"} This fragment grows at the same time the first one appears.
+#' ````
+#' 
+postprocess <- function(metadata, input_file, output_file, clean, verbose) {
+  if (verbose) {
+    message("Postprocessing revealjg file:")
+    message("input_file = ", input_file, ", output_file = ", output_file)
+  }
+  ht <- xml2::read_html(output_file)
+  nodes <- xml2::xml_find_all(ht, xpath = "//*/li[starts-with(normalize-space(text()), '{')]")
+  li_nodes <- nodes %>% purrr::keep(~xml2::xml_name(xml2::xml_contents(.x)[1]) == "text" &&
+                                      stringr::str_detect(xml2::xml_text(xml2::xml_contents(.x)[1]), "^ *\\{[^{]"))
+  if (verbose) {
+    message("Found ", length(li_nodes), " list nodes to postprocess.")
+  }
+  for (n in li_nodes) {
+    head_text <- xml2::xml_contents(n)[1]
+    if (xml2::xml_name(head_text) != "text") {
+      warning("head_text has type \"", xml2::xml_name(head_text), "\"")
+    }
+    parts <- stringr::str_match(xml2::xml_text(head_text),
+                                "^ *\\{(?<meta>[^}]+)\\} *(?<rest>.*)$")[1,]
+    meta <- stringr::str_trim(parts[2])
+    rest <- parts[3]
+    frag <- stringr::str_starts(meta, stringr::fixed("+"))
+    
+    idx  <- stringr::str_match(meta, "^\\+([^[:digit:]]* )?([[:digit:]]+)")[1,3]
+    if (is.na(idx)) {
+      idx <- stringr::str_match(meta, "(?<![^[:space:]])([[:digit:]]+)(?![^[:space:]])")[1,2]
+    }
+    if (is.na(idx)) {
+      idx <- stringr::str_match(meta, "(?<!^[:space:]])data-fragment-index *= *['\"]([[:digit:]]+)['\"](?![^[:space:]])")[1,2]
+    }
+    if (! is.na(idx)) {
+      idx <- as.integer(idx)
+    }
+    
+    classes <- stringr::str_match_all(meta, "(?<![^[:space:]])\\.([a-zA-Z-]+(?![^[:space:]]))")[[1]][,2]
+    if ("fragment" %in% classes) {
+      frag <- TRUE
+    } else if (frag) {
+      classes <- c(classes, "fragment")
+    }
+    
+    x_class <- stringr::str_match(meta, "^\\+[^:]*:([a-z-]+)")[1,2]
+    if (! is.na(x_class)) {
+      if (stringr::str_detect(x_class, "red|green|blue")) {
+        x_class <- stringr::str_c("highlight", x_class, sep = "-")
+      }
+      classes <- c(classes, x_class)
+    }
+    classes <- unique(classes)
+    
+    if (frag) {
+      node_classes <- xml2::xml_attr(n, "class")
+      if (!is.na(node_classes)) {
+        node_classes <- stringr::str_split(node_classes, " ")[[1]]
+        classes <- c(classes, node_classes)
+      }
+      classes <- classes %>% unique() %>% stringr::str_c(collapse = " ") %>% stringr::str_trim()
+      xml2::xml_set_attr(n, "class", classes)
+      if (! is.na(idx)) {
+        xml2::xml_set_attr(n, "data-fragment-index", idx)
+      }
+      xml2::xml_set_text(n, rest)
+    }
+  }
+  if (!clean) {
+    temp_file <- file.path(dirname(output_file), stringr::str_c("tmp_", basename(output_file)))
+    if (file.exists(temp_file)) {
+      file.remove(temp_file)
+    }
+    file.rename(output_file, temp_file)
+  }
+  xml2::write_html(ht, file = output_file)
+  output_file
 }
 
 revealjs_themes <- function() {
