@@ -1,3 +1,7 @@
+## revealjg 0.9.9006
+
+* Updated to latest personal tweaks to reveal.js from my teaching stuff.
+
 ## revealjg 0.9.9005
 
 * A few bug fixes around the possibility of multiple classes for a list entry

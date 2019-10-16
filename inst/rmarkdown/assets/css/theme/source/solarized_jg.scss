@@ -1,4 +1,5 @@
-/* Solarized Light JG theme for reveal.js.
+/**
+ * Solarized Light JG theme for reveal.js.
  * Author: Achim Staebler, Modified by Jonathan GIlligan
  */
 
@@ -365,4 +366,27 @@ $codeBackgroundColor: #C0C0C0;
 
 .reveal .stretch code {
   max-height: 100%;
+}
+
+.reveal .bare div > p,
+.reveal .bare div > img,
+.reveal .bare p,
+.reveal .bare img {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.reveal .flush div,
+.reveal .flush img,
+.reveal .flush p {
+  margin:0;
+  padding:0;
+  border:none;
+}
+
+.credit p {
+  font-size:30%;
+  text-align:right;
+  color: #a0a0a0;
 }
