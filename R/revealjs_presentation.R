@@ -4,17 +4,16 @@ globalVariables(c(".", "extension", "value"))
 #'
 #' Format for converting from R Markdown to a reveal.js presentation.
 #'
-#' @inheritParams rmarkdown::beamer_presentation
-#' @inheritParams rmarkdown::pdf_document
 #' @inheritParams rmarkdown::html_document
 #'
-#' @param center \code{TRUE} to vertically center content on slides
-#' @param controls \code{TRUE} to show navigation controls on slides
-#' @param width \code{NULL} to override default width (pixels)
-#' @param height \code{NULL} to override default height (pixels)
-#' @param margin \code{NULL} to override default margin around the slides.
+#' @param incremental `TRUE` to render all lists incrementally.
+#' @param center `TRUE` to vertically center content on slides.
+#' @param controls `TRUE` to show navigation controls on slides.
+#' @param width `NULL` to override default width (pixels).
+#' @param height `NULL` to override default height (pixels).
+#' @param margin `NULL` to override default margin around the slides.
 #' @param slide_level Level of heading to denote individual slides. If
-#'   \code{slide_level} is 2 (the default), a two-dimensional layout will be
+#'   `slide_level` is 2 (the default), a two-dimensional layout will be
 #'   produced, with level 1 headers building horizontally and level 2 headers
 #'   building vertically. It is not recommended that you use deeper nesting of
 #'   section levels with reveal.js.
@@ -23,29 +22,29 @@ globalVariables(c(".", "extension", "value"))
 #' @param custom_theme Custom theme, not included in reveal.js distribution
 #' @param custom_theme_dark Does the custom theme use a dark-mode?
 #' @param transition Slide transition ("default", "none", "fade", "slide",
-#'   "convex", "concave" or "zoom")
+#'   "convex", "concave" or "zoom").
 #' @param custom_transition Custom slide transition, not included in reveal.js
 #'   distribuion.
 #' @param background_transition Slide background-transition ("default", "none",
-#'   "fade", "slide", "convex", "concave" or "zoom")
+#'   "fade", "slide", "convex", "concave" or "zoom").
 #' @param custom_background_transition Custom background-transition, not
 #'   included in reveal.js distribuion.
 #' @param reveal_options Additional options to specify for reveal.js (see
-#'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
+#'   <https://github.com/hakimel/reveal.js#configuration>
 #'   for details).
 #' @param reveal_plugins Reveal plugins to include. Available plugins include
 #'   "notes", "search", "zoom", "chalkboard", and "menu". Note that
-#'   \code{self_contained} must be set to \code{FALSE} in order to use Reveal
+#'   `self_contained` must be set to `FALSE` in order to use Reveal
 #'   plugins.
 #' @param reveal_version Version of reveal.js to use.
 #' @param reveal_location Location to search for reveal.js (Expects to find
 #' reveal.js distribution at
-#' \code{file.path(reveal_location, paste0('revealjs-', reveal_version))}
+#' `file.path(reveal_location, paste0('revealjs-', reveal_version))`
 #' @param template Pandoc template to use for rendering. Pass "default" to use
-#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
+#'   the rmarkdown package default template; pass `NULL` to use pandoc's
 #'   built-in template; pass a path to use a custom template that you've
 #'   created. Note that if you don't use the "default" template then some
-#'   features of \code{revealjs_presentation} won't be available (see the
+#'   features of `revealjs_presentation` won't be available (see the
 #'   Templates section below for more details).
 #' @param custom_asset_path Path to custom theme css.
 #' @param resource_location Optional custom path to reveal.js templates and skeletons
@@ -59,7 +58,7 @@ globalVariables(c(".", "extension", "value"))
 #' @param no_postprocess Omit the post-processing step.
 #' @param ... Ignored
 #'
-#' @return R Markdown output format to pass to \code{\link{render}}
+#' @return R Markdown output format to pass to [rmarkdown::render()]
 #'
 #' @details
 #'
@@ -69,7 +68,7 @@ globalVariables(c(".", "extension", "value"))
 #' headers building vertically.
 #'
 #' For additional documentation on using revealjs presentations see
-#' \href{https://github.com/jonathan-g/revealjg}{https://github.com/jonathan-g/revealjg}.
+#' <https://github.com/jonathan-g/revealjg>
 #'
 #' @examples
 #' \dontrun{
@@ -418,7 +417,14 @@ revealjs_presentation <- function(incremental = FALSE,
                              pandoc_args = pandoc_args,
                              extra_dependencies = extra_dependencies,
                              ...)
-  base$pre_processor <- pre_processor
+  base$pre_processor <- make_preprocessor(self_contained = self_contained,
+                                          lib_dir = lib_dir, mathjax = mathjax,
+                                          pandoc_args = pandoc_args,
+                                          template = template,
+                                          dependency_resolver = NULL,
+                                          copy_resources = FALSE,
+                                          extra_dependencies = extra_dependencies,
+                                          bootstrap_compatible = FALSE)
 
   # return format
   output_format(

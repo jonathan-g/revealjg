@@ -50,16 +50,13 @@ revealjs_presentation(
 )
 }
 \arguments{
-\item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
-that if you want to reverse the default incremental behavior for an
-individual bullet you can precede it with \code{>}. For example:
-\emph{\code{> - Bullet Text}}}
+\item{incremental}{\code{TRUE} to render all lists incrementally.}
 
-\item{center}{\code{TRUE} to vertically center content on slides}
+\item{center}{\code{TRUE} to vertically center content on slides.}
 
-\item{width}{\code{NULL} to override default width (pixels)}
+\item{width}{\code{NULL} to override default width (pixels).}
 
-\item{height}{\code{NULL} to override default height (pixels)}
+\item{height}{\code{NULL} to override default height (pixels).}
 
 \item{margin}{\code{NULL} to override default margin around the slides.}
 
@@ -85,9 +82,11 @@ outputting HTML directly into the markdown document).}
 quotes to curly quotes, \code{---} to em-dashes, \code{--} to en-dashes, and
 \code{...} to ellipses.}
 
-\item{self_contained}{Whether to generate a full LaTeX document (\code{TRUE})
-or just the body of a LaTeX document (\code{FALSE}). Note the LaTeX
-document is an intermediate file unless \code{keep_tex = TRUE}.}
+\item{self_contained}{Produce a standalone HTML file with no external
+dependencies, using data: URIs to incorporate the contents of linked
+scripts, stylesheets, images, and videos. Note that even for self contained
+documents MathJax is still loaded externally (this is necessary because of
+its size).}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}
@@ -99,19 +98,19 @@ document is an intermediate file unless \code{keep_tex = TRUE}.}
 \item{custom_asset_path}{Path to custom theme css.}
 
 \item{transition}{Slide transition ("default", "none", "fade", "slide",
-"convex", "concave" or "zoom")}
+"convex", "concave" or "zoom").}
 
 \item{custom_transition}{Custom slide transition, not included in reveal.js
 distribuion.}
 
 \item{background_transition}{Slide background-transition ("default", "none",
-"fade", "slide", "convex", "concave" or "zoom")}
+"fade", "slide", "convex", "concave" or "zoom").}
 
 \item{custom_background_transition}{Custom background-transition, not
 included in reveal.js distribuion.}
 
 \item{reveal_options}{Additional options to specify for reveal.js (see
-\href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
+\url{https://github.com/hakimel/reveal.js#configuration}
 for details).}
 
 \item{reveal_plugins}{Reveal plugins to include. Available plugins include
@@ -127,11 +126,11 @@ reveal.js distribution at
 
 \item{resource_location}{Optional custom path to reveal.js templates and skeletons}
 
-\item{controls}{\code{TRUE} to show navigation controls on slides}
+\item{controls}{\code{TRUE} to show navigation controls on slides.}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
-"default", "tango", "pygments", "kate", "monochrome", "espresso",
-"zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
+"default", "tango", "pygments", "kate", "monochrome", "espresso", "zenburn",
+"haddock", and "textmate". Pass \code{NULL} to prevent syntax highlighting.}
 
 \item{mathjax}{Include mathjax. The "default" option uses an https URL from a
 MathJax CDN. The "local" option uses a local version of MathJax (which is
@@ -176,7 +175,7 @@ Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdo
 \item{...}{Ignored}
 }
 \value{
-R Markdown output format to pass to \code{\link{render}}
+R Markdown output format to pass to \code{\link[rmarkdown:render]{rmarkdown::render()}}
 }
 \description{
 Format for converting from R Markdown to a reveal.js presentation.
@@ -188,7 +187,7 @@ will be produced, with level 1 headers building horizontally and level 2
 headers building vertically.
 
 For additional documentation on using revealjs presentations see
-\href{https://github.com/jonathan-g/revealjg}{https://github.com/jonathan-g/revealjg}.
+\url{https://github.com/jonathan-g/revealjg}
 }
 \examples{
 \dontrun{

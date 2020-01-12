@@ -27,6 +27,3 @@ directory, an error is raised (regardless of the value of \code{mustWork}).
 Change a dependency's absolute path to be relative to one of its parent
 directories.
 }
-\seealso{
-\code{\link{copyDependencyToDir}}
-}

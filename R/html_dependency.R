@@ -1,5 +1,7 @@
 # Functions in this file are adapted from html_dependency.R in htmltools
 
+# Split a path into a vector of directory/file names.
+# Reverse the process with do.call(file.path, res)
 split_path <- function(p) {
   res <- character(0)
   repeat {
@@ -13,8 +15,9 @@ split_path <- function(p) {
 }
 
 # given a directory and a file, return a relative path from the directory to the
-# file, or the unmodified file path if the file does not appear to be in the
-# directory
+# file. This differs from htmltools::relativeTo because it does not require that
+# `file`` be a descendant of `dir`: `file` and `dir` can be on different
+# branches of a parent node.
 relative_to <- function(dir, file) {
   val <- NA
 
@@ -58,8 +61,6 @@ relative_to <- function(dir, file) {
 #'
 #' If \code{baspath} did not appear to be a parent directory of the dependency's
 #' directory, an error is raised (regardless of the value of \code{mustWork}).
-#'
-#' @seealso \code{\link{copyDependencyToDir}}
 #'
 #' @export
 makeDependencyRelative <- function(dependency, basepath, mustWork = TRUE) {
@@ -182,7 +183,7 @@ verifyDependencyFiles <- function(dependency, outputDir, mustWork = TRUE,
     missing_msg <- character(0)
   }
   if (length(mismatches) > 0) {
-    mismatch_msg <- str_c("Mismatchedfiles: [", str_c(mmismatches,
+    mismatch_msg <- str_c("Mismatchedfiles: [", str_c(mismatches,
                                                       collapse = ", "), "]")
   } else {
     mismatch_msg <- character(0)
