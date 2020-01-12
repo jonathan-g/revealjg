@@ -19,11 +19,11 @@ files after rendering.}
 \item{verbose}{Issue verbose progress reports while rendering.}
 }
 \value{
-A character string with the name of the output file.\preformatted{* {+4} This has index 4, so it appears out of order
-* {+1:blue} This fragment uses the `highlight-blue` class.
-* {+3:red} This fragment has index 6 and highlights in red.
-* {+2:grow} This fragment grows when it's activated
-* {.fragment .grow data-fragment-index="1"} This fragment grows at the same time the first one appears.
+A character string with the name of the output file.\preformatted{* \{+4\} This has index 4, so it appears out of order
+* \{+1:blue\} This fragment uses the `highlight-blue` class.
+* \{+3:red\} This fragment has index 6 and highlights in red.
+* \{+2:grow\} This fragment grows when it's activated
+* \{.fragment .grow data-fragment-index="1"\} This fragment grows at the same time the first one appears.
 }
 }
 \description{
@@ -36,8 +36,8 @@ fragments in lists. From the RMarkdown perspective, a list item can be
 modified by adding metadata in curly braces immediately after the \code{*}.
 
 The contents of the braces are parsed for classes and fragment indices.
-Examples include:\preformatted{* {.fragment} This is a simple fragment.
-* {+} This is another simple fragment.
+Examples include:\preformatted{* \{.fragment\} This is a simple fragment.
+* \{+\} This is another simple fragment.
 }
 
 You can also play with fragment indices to control the order in which

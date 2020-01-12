@@ -412,6 +412,14 @@ revealjs_presentation <- function(incremental = FALSE,
     postprocessor = revealjg_postprocessor
   }
 
+  base <- html_document_base(smart = FALSE, lib_dir = lib_dir,
+                             self_contained = self_contained,
+                             mathjax = mathjax,
+                             pandoc_args = pandoc_args,
+                             extra_dependencies = extra_dependencies,
+                             ...)
+  base$pre_processor <- pre_processor
+
   # return format
   output_format(
     knitr = knitr_options_html(fig_width, fig_height, fig_retina, keep_md),
@@ -422,12 +430,7 @@ revealjs_presentation <- function(incremental = FALSE,
     clean_supporting = self_contained,
     pre_processor = pre_processor,
     post_processor = postprocessor,
-    base_format = html_document_base(smart = FALSE, lib_dir = lib_dir,
-                                     self_contained = self_contained,
-                                     mathjax = mathjax,
-                                     pandoc_args = pandoc_args,
-                                     extra_dependencies = extra_dependencies,
-                                     ...))
+    base_format = base)
 }
 
 

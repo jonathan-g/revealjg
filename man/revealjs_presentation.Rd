@@ -4,22 +4,50 @@
 \alias{revealjs_presentation}
 \title{Convert to a reveal.js presentation}
 \usage{
-revealjs_presentation(incremental = FALSE, center = FALSE,
-  width = NULL, height = NULL, margin = NULL, slide_level = 2,
-  fig_width = 8, fig_height = 6, fig_retina = if (!fig_caption) 2,
-  fig_caption = FALSE, smart = TRUE, self_contained = TRUE,
-  theme = "simple", custom_theme = NULL, custom_theme_dark = FALSE,
-  custom_asset_path = NULL, transition = "default",
-  custom_transition = NULL, background_transition = "default",
-  custom_background_transition = NULL, reveal_options = NULL,
-  reveal_plugins = NULL, reveal_version = "3.8.0",
-  reveal_location = "default", resource_location = "default",
-  controls = FALSE, highlight = "default", mathjax = "default",
-  mathjax_scale = NULL, tex_extensions = NULL, tex_defs = NULL,
-  template = "default", css = NULL, includes = NULL,
-  md_extensions = NULL, keep_md = FALSE, lib_dir = NULL,
-  pandoc_args = NULL, extra_dependencies = NULL,
-  custom_plugins = NULL, no_postprocess = FALSE, ...)
+revealjs_presentation(
+  incremental = FALSE,
+  center = FALSE,
+  width = NULL,
+  height = NULL,
+  margin = NULL,
+  slide_level = 2,
+  fig_width = 8,
+  fig_height = 6,
+  fig_retina = if (!fig_caption) 2,
+  fig_caption = FALSE,
+  smart = TRUE,
+  self_contained = TRUE,
+  theme = "simple",
+  custom_theme = NULL,
+  custom_theme_dark = FALSE,
+  custom_asset_path = NULL,
+  transition = "default",
+  custom_transition = NULL,
+  background_transition = "default",
+  custom_background_transition = NULL,
+  reveal_options = NULL,
+  reveal_plugins = NULL,
+  reveal_version = "3.8.0",
+  reveal_location = "default",
+  resource_location = "default",
+  controls = FALSE,
+  highlight = "default",
+  mathjax = "default",
+  mathjax_scale = NULL,
+  tex_extensions = NULL,
+  tex_defs = NULL,
+  template = "default",
+  css = NULL,
+  includes = NULL,
+  md_extensions = NULL,
+  keep_md = FALSE,
+  lib_dir = NULL,
+  pandoc_args = NULL,
+  extra_dependencies = NULL,
+  custom_plugins = NULL,
+  no_postprocess = FALSE,
+  ...
+)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -126,7 +154,7 @@ Templates section below for more details).}
 \item{css}{One or more css files to include}
 
 \item{includes}{Named list of additional content to include within the
-document (typically created using the \code{\link{includes}} function).}
+document (typically created using the \code{\link[rmarkdown]{includes}} function).}
 
 \item{md_extensions}{Pandoc markdown extensions}
 
