@@ -11,6 +11,7 @@ make_preprocessor <- function(self_contained,
   preserved_chunks <<- list()
   pre_processor <- function(metadata, input_file, runtime, knit_meta,
                             files_dir, output_dir) {
+    message("Beginning preprocessor...")
     args <- c()
 
     # use files_dir as lib_dir if not explicitly specified
@@ -22,16 +23,25 @@ make_preprocessor <- function(self_contained,
 
     # resolve and inject extras, including dependencies specified by the format
     # and dependencies specified by the user (via extra_dependencies)
+    message("Building format_deps...")
     format_deps <- list()
     format_deps <- append(format_deps, html_dependency_header_attrs())
     format_deps <- append(format_deps, extra_dependencies)
+    message("Finished building format_deps.")
 
+    message("Resolving dependencies...")
     dependency_resolver <- rmarkdown:::html_dependency_resolver
+    message("Finished resolving dependencies.")
 
-    extras <- rmarkdown:::html_extras_for_document(knit_meta, runtime, dependency_resolver,
-                                       format_deps)
-    args <- c(args, rmarkdown:::pandoc_html_extras_args(extras, self_contained, lib_dir,
+    message("Managing extras...")
+    extras <- rmarkdown:::html_extras_for_document(knit_meta, runtime,
+                                                   dependency_resolver,
+                                                   format_deps)
+    message("Done managing extras.")
+    message("Managing args...")
+    args <- c(args, pandoc_html_extras_args(extras, self_contained, lib_dir,
                                             output_dir))
+    message("Done managing args.")
 
     # mathjax
     args <- c(args, rmarkdown:::pandoc_mathjax_args(mathjax,
@@ -40,44 +50,52 @@ make_preprocessor <- function(self_contained,
                                         lib_dir,
                                         output_dir))
 
+    message("Extracting preserved chunks...")
     preserved_chunks <<- rmarkdown:::extract_preserve_chunks(input_file)
 
+    message("Done extracting preserved chunks...")
     # a lua filters added if pandoc2.0
+    message("Getting pandoc lua filters...")
     args <- c(args, rmarkdown:::pandoc_lua_filters(c("pagebreak.lua",
                                                      "latex-div.lua")))
+    message("Done getting pandoc lua filters.")
 
+    message("Finished pre-processing: args = (",
+            str_c(args, collapse = ", "), ").")
     args
   }
   invisible(pre_processor)
 }
 
-# # convert html extras to the pandoc args required to include them
-# pandoc_html_extras_args <- function(extras, self_contained, lib_dir,
-#                                     output_dir) {
-#
-#   args <- c()
-#
-#   # dependencies
-#   dependencies <- extras$dependencies
-#   if (length(dependencies) > 0) {
-#     if (self_contained)
-#       file <- rmarkdown:::as_tmpfile(
-#         html_dependencies_as_string(dependencies, NULL, NULL))
-#     else
-#       file <- rmarkdown:::as_tmpfile(
-#         html_dependencies_as_string(dependencies, lib_dir, output_dir))
-#     args <- c(args, pandoc_include_args(in_header = file))
-#   }
-#
-#   # extras
-#   args <- c(args, pandoc_include_args(
-#     in_header = rmarkdown:::as_tmpfile(extras$in_header),
-#     before_body = rmarkdown:::as_tmpfile(extras$before_body),
-#     after_body = rmarkdown:::as_tmpfile(extras$after_body)))
-#
-#   args
-# }
-#
+# convert html extras to the pandoc args required to include them
+pandoc_html_extras_args <- function(extras, self_contained, lib_dir,
+                                    output_dir) {
+  message("Starting pandoc_html_extras_args,,,")
+
+  args <- c()
+
+  # dependencies
+  dependencies <- extras$dependencies
+  if (length(dependencies) > 0) {
+    if (self_contained)
+      file <- rmarkdown:::as_tmpfile(
+        html_dependencies_as_string(dependencies, NULL, NULL))
+    else
+      file <- rmarkdown:::as_tmpfile(
+        html_dependencies_as_string(dependencies, lib_dir, output_dir))
+    args <- c(args, pandoc_include_args(in_header = file))
+  }
+
+  # extras
+  args <- c(args, pandoc_include_args(
+    in_header = rmarkdown:::as_tmpfile(extras$in_header),
+    before_body = rmarkdown:::as_tmpfile(extras$before_body),
+    after_body = rmarkdown:::as_tmpfile(extras$after_body)))
+
+  message("Finishing pandoc_html_extras_args,")
+  args
+}
+
 # # resolve the html extras for a document (dependencies and arbitrary html to
 # # inject into the document)
 # html_extras_for_document <- function(knit_meta, runtime, dependency_resolver,
