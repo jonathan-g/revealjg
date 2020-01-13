@@ -7,7 +7,9 @@ make_preprocessor <- function(self_contained,
                               dependency_resolver,
                               copy_resources,
                               extra_dependencies,
-                              bootstrap_compatible) {
+                              bootstrap_compatible,
+                              must_work = TRUE,
+                              copy_missing = FALSE) {
   preserved_chunks <<- list()
   pre_processor <- function(metadata, input_file, runtime, knit_meta,
                             files_dir, output_dir) {
@@ -40,7 +42,9 @@ make_preprocessor <- function(self_contained,
     message("Done managing extras.")
     message("Managing args...")
     args <- c(args, pandoc_html_extras_args(extras, self_contained, lib_dir,
-                                            output_dir))
+                                            output_dir,
+                                            must_work = must_work,
+                                            copy_missing = copy_missing))
     message("Done managing args.")
 
     # mathjax
@@ -69,7 +73,8 @@ make_preprocessor <- function(self_contained,
 
 # convert html extras to the pandoc args required to include them
 pandoc_html_extras_args <- function(extras, self_contained, lib_dir,
-                                    output_dir) {
+                                    output_dir, must_work = TRUE,
+                                    copy_missing = FALSE) {
   message("Starting pandoc_html_extras_args,,,")
 
   args <- c()
@@ -82,7 +87,9 @@ pandoc_html_extras_args <- function(extras, self_contained, lib_dir,
         html_dependencies_as_string(dependencies, NULL, NULL))
     else
       file <- rmarkdown:::as_tmpfile(
-        html_dependencies_as_string(dependencies, lib_dir, output_dir))
+        html_dependencies_as_string(dependencies, lib_dir, output_dir,
+                                    must_work = must_work,
+                                    copy_missing = copy_missing))
     args <- c(args, pandoc_include_args(in_header = file))
   }
 

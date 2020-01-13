@@ -56,6 +56,13 @@ globalVariables(c(".", "extension", "value"))
 #'   Markdown HTML output formatter [rmarkdown::html_document_base()].
 #' @param custom_plugins Add custom plugins to the list of supported plugins.
 #' @param no_postprocess Omit the post-processing step.
+#' @param use_custom_preprocessor Use custom preprocessor to handle shared
+#'   HTML libraries for a web site or a collection of presentations.
+#' @param dependencies_must_work HTML dependency files must exist in
+#'   `lib_dir`, or else they must be copied there if
+#'   `copy_missing_dependencies` is `TRUE`.
+#' @param copy_missing_dependencies Copy missing HTML dependency files to
+#'  `lib_dir`.
 #' @param ... Ignored
 #'
 #' @return R Markdown output format to pass to [rmarkdown::render()]
@@ -126,6 +133,9 @@ revealjs_presentation <- function(incremental = FALSE,
                                   extra_dependencies = NULL,
                                   custom_plugins = NULL,
                                   no_postprocess = FALSE,
+                                  use_custom_preprocessor = TRUE,
+                                  dependencies_must_work = TRUE,
+                                  copy_missing_dependencies = FALSE,
                                   ...) {
 
   # function to lookup reveal resource
@@ -221,7 +231,8 @@ revealjs_presentation <- function(incremental = FALSE,
   args <- c(args, pandoc_variable_arg("transition", transition))
 
   # background_transition
-  background_transition <- match.arg(background_transition, revealjs_transitions())
+  background_transition <- match.arg(background_transition,
+                                     revealjs_transitions())
   if (identical(background_transition, 'custom')) {
     if (is.null(custom_background_transition)) {
       stop("Missing custom_background_transition in YAML header")
@@ -229,7 +240,8 @@ revealjs_presentation <- function(incremental = FALSE,
       background_transition <- custom_background_transition
     }
   }
-  args <- c(args, pandoc_variable_arg("backgroundTransition", background_transition))
+  args <- c(args, pandoc_variable_arg("backgroundTransition",
+                                      background_transition))
 
   # use history
   args <- c(args, pandoc_variable_arg("history", "true"))
@@ -417,14 +429,21 @@ revealjs_presentation <- function(incremental = FALSE,
                              pandoc_args = pandoc_args,
                              extra_dependencies = extra_dependencies,
                              ...)
-  base$pre_processor <- make_preprocessor(self_contained = self_contained,
-                                          lib_dir = lib_dir, mathjax = mathjax,
-                                          pandoc_args = pandoc_args,
-                                          template = template,
-                                          dependency_resolver = NULL,
-                                          copy_resources = FALSE,
-                                          extra_dependencies = extra_dependencies,
-                                          bootstrap_compatible = FALSE)
+  if (use_custom_preprocessor) {
+  base$pre_processor <- make_preprocessor(
+    self_contained = self_contained,
+    lib_dir = lib_dir,
+    mathjax = mathjax,
+    pandoc_args = pandoc_args,
+    template = template,
+    dependency_resolver = NULL,
+    copy_resources = FALSE,
+    extra_dependencies = extra_dependencies,
+    bootstrap_compatible = FALSE,
+    must_work = dependencies_must_work,
+    copy_missing = copy_missing_dependencies
+  )
+  }
 
   # return format
   output_format(

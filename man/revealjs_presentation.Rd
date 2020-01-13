@@ -46,6 +46,9 @@ revealjs_presentation(
   extra_dependencies = NULL,
   custom_plugins = NULL,
   no_postprocess = FALSE,
+  use_custom_preprocessor = TRUE,
+  dependencies_must_work = TRUE,
+  copy_missing_dependencies = FALSE,
   ...
 )
 }
@@ -171,6 +174,16 @@ Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdo
 \item{custom_plugins}{Add custom plugins to the list of supported plugins.}
 
 \item{no_postprocess}{Omit the post-processing step.}
+
+\item{use_custom_preprocessor}{Use custom preprocessor to handle shared
+HTML libraries for a web site or a collection of presentations.}
+
+\item{dependencies_must_work}{HTML dependency files must exist in
+\code{lib_dir}, or else they must be copied there if
+\code{copy_missing_dependencies} is \code{TRUE}.}
+
+\item{copy_missing_dependencies}{Copy missing HTML dependency files to
+\code{lib_dir}.}
 
 \item{...}{Ignored}
 }

@@ -19,7 +19,7 @@ split_path <- function(p) {
 # `file`` be a descendant of `dir`: `file` and `dir` can be on different
 # branches of a parent node.
 relative_to <- function(dir, file) {
-  val <- NA
+  parts <- NA
 
   message('relativeTo("', dir, '", "', file, '")')
   ndir <- normalizePath(dir, mustWork = FALSE)
@@ -30,17 +30,18 @@ relative_to <- function(dir, file) {
   lf <- length(file_parts)
   matches <- dir_parts == file_parts[seq(ld)]
   if (all(matches)) {
-    val <- tail(file_parts, -ld)
+    parts <- tail(file_parts, -ld)
   } else {
     match_len <- min(which(! matches)) - 1
     ddots <- rep("..", ld - match_len)
     parts <- c(ddots, file_parts[seq(match_len + 1, lf)])
-    f <- expr(file.path(!!!parts))
-    val <- eval(f)
   }
+  f <- expr(file.path(!!!parts))
+  val <- eval(f)
   if (is.na(val)) {
     stop('Could not resolve relative path from "', dir, '" to "', file, '".')
   }
+  message('relativeTo("', dir, '", "', file, '") -> "', val, '".')
   val
 }
 
@@ -75,6 +76,7 @@ makeDependencyRelative <- function(dependency, basepath, mustWork = TRUE) {
   }
 
   dependency$src <- c(file=relative_to(basepath, dir))
+  message("Adding dependency ", dependency$name, " at ", dependency$src)
 
   dependency
 }
@@ -107,7 +109,8 @@ makeDependencyRelative <- function(dependency, basepath, mustWork = TRUE) {
 #'   value to make the path relative to a specific directory.
 #'
 #' @export
-verifyDependencyFiles <- function(dependency, outputDir, mustWork = TRUE,
+verifyDependencyFiles <- function(dependency, outputDir,
+                                  mustWork = TRUE,
                                   copyMissing = FALSE) {
 
   dir <- dependency$src$file
@@ -145,7 +148,11 @@ verifyDependencyFiles <- function(dependency, outputDir, mustWork = TRUE,
     # dependency$version are not "" or "/" or contains no / or \; we have also
     # made sure outputDir is not "" or "/" above, so target_dir here should be
     # relatively safe to be removed recursively
-    if (dir.exists(target_dir)) unlink(target_dir, recursive = TRUE)
+    if (dir.exists(target_dir)) {
+      message("Removing target_dir ", target_dir)
+      unlink(target_dir, recursive = TRUE)
+    }
+    message("Creating target_dir ", target_dir)
     dir.create(target_dir)
   } else {
     if (! dir.exists(target_dir)) {
@@ -225,22 +232,30 @@ copy_if_necessary <- function(from, to, isdir, copyMissing = FALSE) {
   if (!dir.exists(dirname(to))) {
     missing <- c(missing, str_c(to, "/"))
     if (copyMissing) {
+      message("Creating missing directory ", to)
       dir.create(dirname(to), recursive = TRUE)
     }
   }
   if (isdir && !dir.exists(to)) {
     missing <- c(missing, str_c(to, "/"))
     if (copyMissing) {
+      message("Creading missing parent directory ", to)
       dir.create(to)
     }
   }
   if (isdir) {
+    message("Checking files recursively in ", to)
     f <- list.files(from, all.files = TRUE, recursive = TRUE,
                     include.dirs = FALSE)
     t <- file.path(to, f)
     to_exists <- file.exists(t)
     if (any(!to_exists)) {
       missing <- c(missing, t[!to_exists])
+      message("Missing files: ", str_c(basename(missing), collapse = ", "))
+      if (copyMissing) {
+        message("Copying missing files...")
+        file.copy(f[ !to_exists ], t[ !to_exists ])
+      }
     }
     t <- t[to_exists]
     f <- f[to_exists]
@@ -249,13 +264,17 @@ copy_if_necessary <- function(from, to, isdir, copyMissing = FALSE) {
     matches <- t_digest == f_digest
     if (! all(matches)) {
       mismatches <- c(mismatches, t[!matches])
+      message("Mismatched files: ", str_c(basename(missing), collapse = ", "))
       if (copyMissing) {
+        message("Copying mismatched files...")
         file.copy(f[ !matches ], t[ !matches ])
       }
     }
   } else if (! file.exists(to)) {
+    message("Checking single file ", to)
     missing <- c(missing, to)
     if (copyMissing) {
+      message("Copying missing file to ", to)
       file.copy(from, to)
     }
   } else {
@@ -263,6 +282,7 @@ copy_if_necessary <- function(from, to, isdir, copyMissing = FALSE) {
     if (! match) {
       mismatches <- c(mismatches, to)
       if (copyMissing) {
+        message("Copying mismatched file to ", to)
         file.copy(from, to, overwrite = TRUE)
       }
     }

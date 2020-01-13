@@ -5,7 +5,9 @@
 
 # return the html dependencies as an HTML string suitable for inclusion
 # in the head of a document
-html_dependencies_as_string <- function(dependencies, lib_dir, output_dir) {
+html_dependencies_as_string <- function(dependencies, lib_dir, output_dir,
+                                        must_work = TRUE,
+                                        copy_missing = FALSE) {
 
   if (!is.null(lib_dir)) {
     message("From revealjg: Dependencies = [", paste0(
@@ -19,7 +21,8 @@ html_dependencies_as_string <- function(dependencies, lib_dir, output_dir) {
     }
     message("Copying dependencies ...")
     dependencies <- lapply(dependencies, verifyDependencyFiles, lib_dir,
-                           )
+                           mustWork = must_work,
+                           copyMissing = copy_missing)
     message("Making dependencies relative...")
     dependencies <- lapply(dependencies, makeDependencyRelative, output_dir)
     message("Done.")
