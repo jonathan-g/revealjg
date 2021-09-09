@@ -32,15 +32,27 @@
 #' ```
 #' * {+4} This has index 4, so it appears out of order
 #' * {+1:blue} This fragment uses the `highlight-blue` class.
-#' * {+3:red} This fragment has index 6 and highlights in red.
+#' * {+3:cred} This fragment has index 3 and uses the `highlight-current-red` 
+#'   class
 #' * {+2:grow} This fragment grows when it's activated
-#' * {.fragment .grow data-fragment-index="1"} This fragment grows at the same time the first one appears.
+#' * {.fragment .grow data-fragment-index="1"} This fragment grows at the same 
+#'   time the first one appears.
 #' ```
+#'
+#' Options for fragment style include:
+#' * Colors:  `red`, `green`, `blue`, `med-blue`, and `dark-green`
+#' * Current colors:  `cred`, `cgreen`, `cblue`, `cmed-blue`, and `cdark-green`
+#' * Other: `grow`, `shrink`, `strike`, `semi-fade-out`, `fade-out`,
+#'   `fade-up`, `fade-down`, `fade-left`, `fade-right`, `fade-in-then-out`,
+#'   and `fade-in-then-semi-out`
 #'
 revealjg_postprocessor <- function(metadata, input_file, output_file, clean, verbose) {
   if (verbose) {
     message("Revealjg postprocessor starting...")
   }
+  
+  color_list = c("red", "green", "blue", "med-blue", "dark-green")
+  
   ht <- xml2::read_html(output_file)
   nodes <- xml2::xml_find_all(ht, xpath = "//*/li[starts-with(normalize-space(text()), '{')]")
   alt_nodes <- xml2::xml_find_all(ht, xpath = "//*/li[normalize-space(text()) = '']/p[(position() = 1) and starts-with(normalize-space(text()), '{')]")
@@ -103,9 +115,19 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
       if (verbose) {
         message("x_class = [", stringr::str_c(x_class, collapse = ", "), "]")
       }
-      c_class <- x_class %>% purrr::keep(~stringr::str_detect(.x, "^(red|green|blue)"))
+      
+      color_pat <- stringr::str_c("^(", 
+                                  stringr::str_c(color_list, collapse = "|"), 
+                                  ")")
+      cur_color_pat <- stringr::str_c("^c(", 
+                                      stringr::str_c(color_list, collapse = "|"), 
+                                      ")")
+      
+      c_class <- x_class %>% 
+        purrr::keep(~stringr::str_detect(.x, color_pat))
       x_class <- x_class %>% setdiff(c_class)
-      cc_class <- x_class %>% purrr::keep(~stringr::str_detect(.x, "^c(red|green|blue)"))
+      cc_class <- x_class %>% 
+        purrr::keep(~stringr::str_detect(.x, cur_color_pat))
       x_class <- x_class %>% setdiff(cc_class)
       if (verbose) {
         message("x_class = [", stringr::str_c(x_class, collapse = ", "), "]")
@@ -117,7 +139,7 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
       }
       if (length(cc_class) > 0) {
         cc_class <- cc_class %>%
-          stringr::str_replace("^c(red|green|blue)", "\\1") %>%
+          stringr::str_replace(cur_color_pat, "\\1") %>%
           stringr::str_c("highlight", "current", ., sep = "-")
       }
       if (verbose) {
@@ -152,7 +174,8 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
         node_classes <- stringr::str_split(node_classes, " ")[[1]]
         classes <- c(classes, node_classes)
       }
-      classes <- classes %>% unique() %>% stringr::str_c(collapse = " ") %>% stringr::str_trim()
+      classes <- classes %>% unique() %>% stringr::str_c(collapse = " ") %>% 
+        stringr::str_trim()
       xml2::xml_set_attr(np, "class", classes)
       if (! is.na(idx)) {
         xml2::xml_set_attr(np, "data-fragment-index", idx)
@@ -165,7 +188,8 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
     message("Getting ready to write file to disk.")
   }
   if (!clean) {
-    temp_file <- file.path(dirname(output_file), stringr::str_c("tmp_", basename(output_file)))
+    temp_file <- file.path(dirname(output_file), 
+                           stringr::str_c("tmp_", basename(output_file)))
     if (file.exists(temp_file)) {
       file.remove(temp_file)
     }

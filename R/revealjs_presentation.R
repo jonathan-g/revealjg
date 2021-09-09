@@ -18,6 +18,8 @@ globalVariables(c(".", "extension", "value"))
 #'   produced, with level 1 headers building horizontally and level 2 headers
 #'   building vertically. It is not recommended that you use deeper nesting of
 #'   section levels with reveal.js.
+#' @param smart Use smartypants transformations for special characters and 
+#'   punctuation.
 #' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
 #'   "blood", "moon", "night", "black", "league" or "white").
 #' @param custom_theme Custom theme, not included in reveal.js distribution
@@ -96,8 +98,8 @@ revealjs_presentation <- function(incremental = FALSE,
                                   fig_height = 6,
                                   fig_retina = if (!fig_caption) 2,
                                   fig_caption = FALSE,
-                                  smart = TRUE,
                                   self_contained = TRUE,
+                                  smart = TRUE,
                                   theme = "simple",
                                   custom_theme = NULL,
                                   custom_theme_dark = FALSE,
@@ -396,10 +398,13 @@ revealjs_presentation <- function(incremental = FALSE,
       revealjs_path <- pandoc_path_arg(revealjs_path)
       custom_asset_path <- pandoc_path_arg(custom_asset_path)
     }
+    message("setting revealjs-url in pre-processor")
     args <- c(args, pandoc_variable_arg("revealjs-url", revealjs_path))
+    message("setting local-asset-url in pre-processor")
     args <- c(args, pandoc_variable_arg("local-asset-url", custom_asset_path))
 
     # highlight
+    message("setting highlight args in pre-processor")
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
 
     # return additional args

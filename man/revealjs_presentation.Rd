@@ -4,22 +4,50 @@
 \alias{revealjs_presentation}
 \title{Convert to a reveal.js presentation}
 \usage{
-revealjs_presentation(incremental = FALSE, center = FALSE,
-  width = NULL, height = NULL, margin = NULL, slide_level = 2,
-  fig_width = 8, fig_height = 6, fig_retina = if (!fig_caption) 2,
-  fig_caption = FALSE, smart = TRUE, self_contained = TRUE,
-  theme = "simple", custom_theme = NULL, custom_theme_dark = FALSE,
-  custom_asset_path = NULL, transition = "default",
-  custom_transition = NULL, background_transition = "default",
-  custom_background_transition = NULL, reveal_options = NULL,
-  reveal_plugins = NULL, reveal_version = "3.8.0",
-  reveal_location = "default", resource_location = "default",
-  controls = FALSE, highlight = "default", mathjax = "default",
-  mathjax_scale = NULL, tex_extensions = NULL, tex_defs = NULL,
-  template = "default", css = NULL, includes = NULL,
-  md_extensions = NULL, keep_md = FALSE, lib_dir = NULL,
-  pandoc_args = NULL, extra_dependencies = NULL,
-  custom_plugins = NULL, no_postprocess = FALSE, ...)
+revealjs_presentation(
+  incremental = FALSE,
+  center = FALSE,
+  width = NULL,
+  height = NULL,
+  margin = NULL,
+  slide_level = 2,
+  fig_width = 8,
+  fig_height = 6,
+  fig_retina = if (!fig_caption) 2,
+  fig_caption = FALSE,
+  self_contained = TRUE,
+  smart = TRUE,
+  theme = "simple",
+  custom_theme = NULL,
+  custom_theme_dark = FALSE,
+  custom_asset_path = NULL,
+  transition = "default",
+  custom_transition = NULL,
+  background_transition = "default",
+  custom_background_transition = NULL,
+  reveal_options = NULL,
+  reveal_plugins = NULL,
+  reveal_version = "3.8.0",
+  reveal_location = "default",
+  resource_location = "default",
+  controls = FALSE,
+  highlight = "default",
+  mathjax = "default",
+  mathjax_scale = NULL,
+  tex_extensions = NULL,
+  tex_defs = NULL,
+  template = "default",
+  css = NULL,
+  includes = NULL,
+  md_extensions = NULL,
+  keep_md = FALSE,
+  lib_dir = NULL,
+  pandoc_args = NULL,
+  extra_dependencies = NULL,
+  custom_plugins = NULL,
+  no_postprocess = FALSE,
+  ...
+)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
@@ -53,13 +81,12 @@ outputting HTML directly into the markdown document).}
 
 \item{fig_caption}{\code{TRUE} to render figures with captions}
 
-\item{smart}{Produce typographically correct output, converting straight
-quotes to curly quotes, \code{---} to em-dashes, \code{--} to en-dashes, and
-\code{...} to ellipses.}
-
 \item{self_contained}{Whether to generate a full LaTeX document (\code{TRUE})
 or just the body of a LaTeX document (\code{FALSE}). Note the LaTeX
 document is an intermediate file unless \code{keep_tex = TRUE}.}
+
+\item{smart}{Use smartypants transformations for special characters and
+punctuation.}
 
 \item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
 "blood", "moon", "night", "black", "league" or "white").}
@@ -123,10 +150,13 @@ created. Note that if you don't use the "default" template then some
 features of \code{revealjs_presentation} won't be available (see the
 Templates section below for more details).}
 
-\item{css}{One or more css files to include}
+\item{css}{CSS and/or Sass files to include. Files with an extension of .sass
+or .scss are compiled to CSS via \code{sass::sass()}. Also, if \code{theme} is a
+\code{\link[bslib:bs_theme]{bslib::bs_theme()}} object, Sass code may reference the relevant Bootstrap
+Sass variables, functions, mixins, etc.}
 
 \item{includes}{Named list of additional content to include within the
-document (typically created using the \code{\link{includes}} function).}
+document (typically created using the \code{\link[rmarkdown]{includes}} function).}
 
 \item{md_extensions}{Pandoc markdown extensions}
 
