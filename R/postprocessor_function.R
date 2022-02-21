@@ -74,8 +74,8 @@ revealjg_postprocessor <- function(metadata, input_file, output_file, clean, ver
       warning("head_text has type \"", xml2::xml_name(head_text), "\"")
     }
     parts <- stringr::str_match(xml2::xml_text(head_text),
-                                regex("^ *\\{(?<meta>[^}]+)\\} *(?<rest>.*)$",
-                                      dotall=TRUE))[1,]
+                                stringr::regex("^ *\\{(?<meta>[^}]+)\\} *(?<rest>.*)$",
+                                               dotall=TRUE))[1,]
     meta <- stringr::str_trim(parts[2])
     rest <- parts[3]
 
