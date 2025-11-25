@@ -28,24 +28,17 @@ test_theme <- function(theme) {
       )
 
     # render it with the specified theme
-    capture.output({
-      message("tstdir = ", tstdir, " and it ",
-              ifelse(dir.exists(tstdir), "does", "does not"),
-              " exist.")
-      message("rmd file = ", rmd_file, " and it ",
-              ifelse(file.exists(rmd_file), "does", "does not"),
-              " exist.")
-      expect_true(dir.exists(tstdir))
-      expect_true(file.exists(output_file))
-    }, type = "message")
 
     capture.output({
-      output_file <- file.path(dirname(rmd_file), "testdoc.html")
+      expect_true(dir.exists(tstdir))
+      expect_true(file.exists(rmd_file))
+      output_file <- "testdoc.html"
       output_format <- revealjs_presentation(theme = theme)
       rmarkdown::render(rmd_file,
                         output_format = output_format,
                         output_file = output_file)
-      expect_true(file.exists(output_file))
+      expect_true(file.exists(file.path(dirname(rmd_file),
+                                        output_file)))
     })
   })
 }
