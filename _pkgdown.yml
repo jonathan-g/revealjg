@@ -1,0 +1,20 @@
+url: https://jonathan-g.github.io/revealjg
+
+destination: docs
+home:
+  title: RMarkdown format for `reveal.js` presentations
+author:
+  Jonathan Gilligan:
+    href: https://www.jonathangilligan.org/
+template:
+  bootstrap: 5
+  params:
+    bootswatch: cerulean
+  opengraph:
+    image:
+      src: man/figures/logo.png
+    twitter:
+      creator: "@jg_environ"
+      card: summary
+development:
+  mode: auto

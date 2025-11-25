@@ -1,0 +1,41 @@
+image: jgilligan/jg-verse:4.5.2
+
+variables:
+  PKGNAME: "revealjg"
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
+  CRAN_REPOS: "https://cran.rstudio.com/"
+
+cache:
+  key: lib
+  paths:
+  - $R_LIBS_USER
+
+stages:
+  - test
+  - document
+
+before_script:
+  - mkdir -p $R_LIBS_USER
+  - R -e 'devtools::install_deps(dep = T)'
+
+test:
+  stage: test
+  script:
+    # - R -e "install.packages(c('janitor', 'R.utils'))"
+    - R -e "sessionInfo()"
+    - R CMD build . --build-vignettes --no-manual
+    - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+    - R CMD check "${PKG_FILE_NAME}" --no-manual
+
+pages:
+  stage: document
+  dependencies:
+    - test
+  script:
+    - Rscript -e 'pkgdown::build_site(preview = FALSE, new_process = TRUE, devel = FALSE, install = TRUE, override = list(destination = "public"))'
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - main
