@@ -1,22 +1,34 @@
 R Markdown Format for reveal.js Presentations
 ================
 
-- [Overview](#overview)
-- [Rendering](#rendering)
-- [Display Modes](#display-modes)
-- [Incremental Bullets](#incremental-bullets)
-- [Appearance and Style](#appearance-and-style)
-- [Slide Transitions](#slide-transitions)
-- [Slide Backgrounds](#slide-backgrounds)
-- [2-D Presentations](#2-d-presentations)
-- [Reveal Options](#reveal-options)
-- [Figure Options](#figure-options)
-- [MathJax Equations](#mathjax-equations)
-- [Document Dependencies](#document-dependencies)
-- [Reveal Version](#reveal-version)
-- [Reveal Plugins](#reveal-plugins)
-- [Advanced Customization](#advanced-customization)
-- [Shared Options](#shared-options)
+- [revealjg](#revealjg)
+  - [Overview](#overview)
+  - [Rendering](#rendering)
+  - [Display Modes](#display-modes)
+  - [Incremental Bullets](#incremental-bullets)
+  - [Appearance and Style](#appearance-and-style)
+  - [Slide Transitions](#slide-transitions)
+  - [Slide Backgrounds](#slide-backgrounds)
+  - [2-D Presentations](#2-d-presentations)
+  - [Reveal Options](#reveal-options)
+  - [Figure Options](#figure-options)
+  - [MathJax Equations](#mathjax-equations)
+  - [Document Dependencies](#document-dependencies)
+  - [Reveal Version](#reveal-version)
+  - [Reveal Plugins](#reveal-plugins)
+  - [Advanced Customization](#advanced-customization)
+  - [Shared Options](#shared-options)
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# revealjg
+
+<!-- badges: start -->
+
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 ## Overview
 

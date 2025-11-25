@@ -6,6 +6,24 @@ output:
     toc_depth: 2
 ---
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# revealjg
+
+<!-- badges: start -->
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ## Overview
 
 This repository provides an [R Markdown](http://rmarkdown.rstudio.com) custom format for [reveal.js](http://lab.hakim.se/reveal-js/#/) HTML presentations.
