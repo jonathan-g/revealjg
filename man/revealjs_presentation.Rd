@@ -27,7 +27,7 @@ revealjs_presentation(
   custom_background_transition = NULL,
   reveal_options = NULL,
   reveal_plugins = NULL,
-  reveal_version = "3.8.0",
+  reveal_version = "5.2.1",
   reveal_location = "default",
   resource_location = "default",
   controls = FALSE,
@@ -189,7 +189,7 @@ Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdo
 \item{...}{Ignored}
 }
 \value{
-R Markdown output format to pass to \code{\link{render}}
+R Markdown output format to pass to \code{\link[rmarkdown]{render}}
 }
 \description{
 Format for converting from R Markdown to a reveal.js presentation.

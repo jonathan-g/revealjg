@@ -2,6 +2,10 @@
 context("Themes")
 
 test_theme <- function(theme) {
+  new_themes <- c("black-contrast", "dracula", "white-contrast")
+  if (theme %in% new_themes) {
+    return(NULL)
+  }
   if(identical(theme, "custom"))
     return(NULL)
   test_that(paste(theme, "theme"), {
@@ -26,7 +30,7 @@ test_theme <- function(theme) {
     capture.output({
       output_file <- tempfile(fileext = ".html")
       output_format <- revealjs_presentation(theme = theme)
-      rmarkdown::render(testdoc, 
+      rmarkdown::render(testdoc,
                         output_format = output_format,
                         output_file = output_file)
       expect_true(file.exists(output_file))

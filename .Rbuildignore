@@ -16,6 +16,9 @@ examples/
 ^inst/reveal\.js[0-9._\-]*/js/reveal\.js$
 ^inst/reveal\.js[0-9._\-]*/css/theme/source/
 ^inst/reveal\.js[0-9._\-]*/css/theme/template/
+^inst/reveal\.js[0-9._\-]*/examples/
 ^inst/reveal\.js[0-9._\-]*/test/
+^inst/reveal\.js[0-9._\-]*/\..*$
+
 ^inst/rmarkdown/assets/css/theme/source/
 ^inst/rmarkdown/assets/css/theme/template/

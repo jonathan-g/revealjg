@@ -62,7 +62,7 @@ globalVariables(c(".", "extension", "value"))
 #' @param no_postprocess Omit the post-processing step.
 #' @param ... Ignored
 #'
-#' @return R Markdown output format to pass to \code{\link{render}}
+#' @return R Markdown output format to pass to \code{\link[rmarkdown]{render}}
 #'
 #' @details
 #'
@@ -111,7 +111,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   custom_background_transition = NULL,
                                   reveal_options = NULL,
                                   reveal_plugins = NULL,
-                                  reveal_version = "3.8.0",
+                                  reveal_version = "5.2.1",
                                   reveal_location = "default",
                                   resource_location = "default",
                                   controls = FALSE,
@@ -132,6 +132,19 @@ revealjs_presentation <- function(incremental = FALSE,
                                   no_postprocess = FALSE,
                                   ...) {
 
+
+  # Reveal version: layout of files changed a lot between versions
+  # 4 and 5.
+
+  reveal_new_version <- semver::parse_version(reveal_version) >=
+    semver::parse_version("5.0.0")
+
+  if (reveal_new_version) {
+    reveal_default_template <- "default-5.html"
+  } else {
+    reveal_default_template <- "default-3.html"
+  }
+
   # function to lookup reveal resource
   reveal_resources <- function() {
     if(identical(resource_location, "default")) {
@@ -145,9 +158,11 @@ revealjs_presentation <- function(incremental = FALSE,
   # base pandoc options for all reveal.js output
   args <- c()
 
+
   # template path and assets
   if (identical(template, "default")) {
-    default_template <- file.path(reveal_resources(), "default.html")
+    default_template <- file.path(reveal_resources(),
+                                  reveal_default_template)
     args <- c(args, "--template", pandoc_path_arg(default_template))
   } else {
     if(!file.exists(template)) {
@@ -380,8 +395,7 @@ revealjs_presentation <- function(incremental = FALSE,
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
-    if (semver::parse_version(reveal_version) >=
-        semver::parse_version("5.0.0")) {
+    if (reveal_new_version) {
       revealjs_path <- file.path(revealjs_path, "dist")
     }
     if (identical(custom_asset_path, "default")) {
