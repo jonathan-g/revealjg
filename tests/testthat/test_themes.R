@@ -30,6 +30,7 @@ test_theme <- function(theme) {
     # render it with the specified theme
 
     capture.output({
+      expect_true(rmarkdown::pandoc_available())
       expect_true(dir.exists(tstdir))
       expect_true(file.exists(rmd_file))
       output_file <- "testdoc.html"
