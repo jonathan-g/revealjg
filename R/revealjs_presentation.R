@@ -419,8 +419,10 @@ revealjs_presentation <- function(incremental = FALSE,
     }
     message("setting revealjs-url in pre-processor")
     args <- c(args, pandoc_variable_arg("revealjs-url", revealjs_path))
-    message("setting local-asset-url in pre-processor")
-    args <- c(args, pandoc_variable_arg("local-asset-url", custom_asset_path))
+    if (! is.null(custom_asset_path) && ! is.na(custom_asset_path)) {
+      message("setting local-asset-url in pre-processor")
+      args <- c(args, pandoc_variable_arg("local-asset-url", custom_asset_path))
+    }
 
     # highlight
     message("setting highlight args in pre-processor")
