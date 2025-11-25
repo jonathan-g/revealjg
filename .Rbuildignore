@@ -23,6 +23,7 @@ examples/
 ^inst/rmarkdown/assets/css/theme/source/
 ^inst/rmarkdown/assets/css/theme/template/
 ^\.github$
+^\.gitlab-ci.yml$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
