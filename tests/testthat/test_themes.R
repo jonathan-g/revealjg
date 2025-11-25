@@ -44,4 +44,6 @@ test_theme <- function(theme) {
 }
 
 # test all themes
-sapply(revealjg:::revealjs_themes(), test_theme)
+if (rmarkdown::pandoc_available()) {
+  sapply(revealjg:::revealjs_themes(), test_theme)
+}
