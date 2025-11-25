@@ -398,7 +398,7 @@ revealjs_presentation <- function(incremental = FALSE,
     if (reveal_new_version) {
       revealjs_path <- file.path(revealjs_path, "dist")
     }
-    if (identical(custom_asset_path, "default")) {
+    if (is.null(custom_asset_path) || identical(custom_asset_path, "default")) {
       custom_asset_path <-  revealjs_path
     }
     if (!self_contained || identical(.Platform$OS.type, "windows")) {
