@@ -1,21 +1,24 @@
 # R Markdown Format for reveal.js Presentations
 
-- [Overview](#overview)
-- [Rendering](#rendering)
-- [Display Modes](#display-modes)
-- [Incremental Bullets](#incremental-bullets)
-- [Appearance and Style](#appearance-and-style)
-- [Slide Transitions](#slide-transitions)
-- [Slide Backgrounds](#slide-backgrounds)
-- [2-D Presentations](#id_2-d-presentations)
-- [Reveal Options](#reveal-options)
-- [Figure Options](#figure-options)
-- [MathJax Equations](#mathjax-equations)
-- [Document Dependencies](#document-dependencies)
-- [Reveal Version](#reveal-version)
-- [Reveal Plugins](#reveal-plugins)
-- [Advanced Customization](#advanced-customization)
-- [Shared Options](#shared-options)
+- [revealjg](#revealjg)
+  - [Overview](#overview)
+  - [Rendering](#rendering)
+  - [Display Modes](#display-modes)
+  - [Incremental Bullets](#incremental-bullets)
+  - [Appearance and Style](#appearance-and-style)
+  - [Slide Transitions](#slide-transitions)
+  - [Slide Backgrounds](#slide-backgrounds)
+  - [2-D Presentations](#id_2-d-presentations)
+  - [Reveal Options](#reveal-options)
+  - [Figure Options](#figure-options)
+  - [MathJax Equations](#mathjax-equations)
+  - [Document Dependencies](#document-dependencies)
+  - [Reveal Version](#reveal-version)
+  - [Reveal Plugins](#reveal-plugins)
+  - [Advanced Customization](#advanced-customization)
+  - [Shared Options](#shared-options)
+
+# revealjg
 
 ## Overview
 
