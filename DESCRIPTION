@@ -1,8 +1,8 @@
 Package: revealjg
 Type: Package
 Title: R Markdown Format for 'reveal.js' Presentations
-Version: 0.9.9009
-Date: 2021-09-09
+Version: 1.0.0
+Date: 2025-11-25
 Authors@R: c(
     person("Hakim", "El Hattab", role = c("aut", "cph"),
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
@@ -24,14 +24,15 @@ Depends:
     R (>= 3.0)
 Imports:
     rmarkdown (>= 1.0),
-    tibble,
-    dplyr,
-    purrr,
-    stringr,
-    magrittr,
-    xml2
+    tibble (>= 3.0.0),
+    dplyr (>= 1.0.0),
+    purrr (>= 1.0.0),
+    stringr (>= 1.0.0),
+    magrittr (>= 2.0.0),
+    xml2 (>= 1.5.0),
+    semver (>= 0.2.0)
 Suggests:
-    testthat
+    testthat (>= 3.0.0)
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)

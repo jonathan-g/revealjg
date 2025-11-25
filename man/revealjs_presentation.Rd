@@ -89,8 +89,9 @@ document is an intermediate file unless \code{keep_tex = TRUE}.}
 \item{smart}{Use smartypants transformations for special characters and
 punctuation.}
 
-\item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
-"blood", "moon", "night", "black", "league" or "white").}
+\item{theme}{Visual theme ("simple", "sky", "beige", "moon", "night",
+"solarized", "league", "serif", "blood", "dracula",
+"black", "black-contrast", "white", or "white-contrast").}
 
 \item{custom_theme}{Custom theme, not included in reveal.js distribution}
 
@@ -174,7 +175,7 @@ document (typically created using the \code{\link[rmarkdown]{includes}} function
 
 \item{lib_dir}{Directory to copy dependent HTML libraries (e.g. jquery,
 bootstrap, etc.) into. By default this will be the name of the document with
-\code{_files} appended to it.}
+\verb{_files} appended to it.}
 
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 

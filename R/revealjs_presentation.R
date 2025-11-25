@@ -18,10 +18,11 @@ globalVariables(c(".", "extension", "value"))
 #'   produced, with level 1 headers building horizontally and level 2 headers
 #'   building vertically. It is not recommended that you use deeper nesting of
 #'   section levels with reveal.js.
-#' @param smart Use smartypants transformations for special characters and 
+#' @param smart Use smartypants transformations for special characters and
 #'   punctuation.
-#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
-#'   "blood", "moon", "night", "black", "league" or "white").
+#' @param theme Visual theme ("simple", "sky", "beige", "moon", "night",
+#'   "solarized", "league", "serif", "blood", "dracula",
+#'   "black", "black-contrast", "white", or "white-contrast").
 #' @param custom_theme Custom theme, not included in reveal.js distribution
 #' @param custom_theme_dark Does the custom theme use a dark-mode?
 #' @param transition Slide transition ("default", "none", "fade", "slide",
@@ -379,6 +380,10 @@ revealjs_presentation <- function(incremental = FALSE,
     } else {
       revealjs_path <- file.path(reveal_location, reveal_home)
     }
+    if (semver::parse_version(reveal_version) >=
+        semver::parse_version("5.0.0")) {
+      revealjs_path <- file.path(revealjs_path, "dist")
+    }
     if (identical(custom_asset_path, "default")) {
       custom_asset_path <-  revealjs_path
     }
@@ -438,10 +443,11 @@ revealjs_presentation <- function(incremental = FALSE,
 
 revealjs_themes <- function() {
   c("default",
-    "dark",
     "beige",
     "black",
+    "black-contrast",
     "blood",
+    "dracula",
     "league",
     "moon",
     "night",
@@ -450,6 +456,7 @@ revealjs_themes <- function() {
     "sky",
     "solarized",
     "white",
+    "white-contrast",
     "custom")
 }
 

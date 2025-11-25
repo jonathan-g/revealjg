@@ -19,14 +19,16 @@ files after rendering.}
 \item{verbose}{Issue verbose progress reports while rendering.}
 }
 \value{
-A character string with the name of the output file.\preformatted{* \{+4\} This has index 4, so it appears out of order
+A character string with the name of the output file.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* \{+4\} This has index 4, so it appears out of order
 * \{+1:blue\} This fragment uses the `highlight-blue` class.
 * \{+3:cred\} This fragment has index 3 and uses the `highlight-current-red`
   class
 * \{+2:grow\} This fragment grows when it's activated
 * \{.fragment .grow data-fragment-index="1"\} This fragment grows at the same
   time the first one appears.
-}
+}\if{html}{\out{</div>}}
 
 Options for fragment style include:
 \itemize{
@@ -47,9 +49,11 @@ fragments in lists. From the RMarkdown perspective, a list item can be
 modified by adding metadata in curly braces immediately after the \code{*}.
 
 The contents of the braces are parsed for classes and fragment indices.
-Examples include:\preformatted{* \{.fragment\} This is a simple fragment.
+Examples include:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* \{.fragment\} This is a simple fragment.
 * \{+\} This is another simple fragment.
-}
+}\if{html}{\out{</div>}}
 
 You can also play with fragment indices to control the order in which
 fragments appear, but if you do then you need to set the indices for every
