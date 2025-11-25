@@ -13,7 +13,7 @@ This repository provides an [R Markdown](http://rmarkdown.rstudio.com) custom fo
 You can use this format in R Markdown documents by installing this package as follows:
 
 ```r
-install.packages("revealjg", type = "source")
+remotes::installgithub("jonathan-g/revealjg")
 ```
 
 
@@ -299,6 +299,26 @@ One common reason keep dependencies external is for serving R Markdown documents
         lib_dir: libs
     ---
 
+## Reveal Version
+
+`Reveal.js` underwent a serious refactoring between major versions 4 and 5,
+so `revealjg` includes an option of specifying the `reveal.js` version to 
+use. This affects which html template pandoc uses to render the slides
+and it affects the directory structure for finding `.css` and `.js` files
+in the `reveal.js` directory.
+
+By default, `revealjg` uses `reveal.js` version 5.2.1.
+
+    ---
+    title: "Habits"
+    output:
+      revealjg::revealjs_presentation:
+        reveal_version: "5.2.1"
+        self_contained: false
+        lib_dir: libs
+    ---
+
+
 ## Reveal Plugins
 
 You can enable various reveal.js plugins using the `reveal_plugins` option. Plugins currently supported include:
@@ -309,7 +329,6 @@ You can enable various reveal.js plugins using the `reveal_plugins` option. Plug
 | [zoom](http://lab.hakim.se/zoom-js/) | Zoom in and out of selected content with Alt+Click. |
 | [search](https://github.com/hakimel/reveal.js/blob/master/plugin/search/search.js) | Find a text string anywhere in the slides and show the next occurrence to the user. |
 | [chalkboard](https://github.com/rajgoel/reveal.js-plugins/tree/master/chalkboard) | Include handwritten notes within a presentation. |
-| [menu](https://github.com/denehyg/reveal.js-menu) | Include a navigation menu within a presentation. |
 
 Note that the use of plugins requires that the `self_contained` option be set to false. For example, this presentation includes both the "notes" and "search" plugins:
 

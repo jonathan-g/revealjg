@@ -1,21 +1,22 @@
 R Markdown Format for reveal.js Presentations
 ================
 
-  - [Overview](#overview)
-  - [Rendering](#rendering)
-  - [Display Modes](#display-modes)
-  - [Incremental Bullets](#incremental-bullets)
-  - [Appearance and Style](#appearance-and-style)
-  - [Slide Transitions](#slide-transitions)
-  - [Slide Backgrounds](#slide-backgrounds)
-  - [2-D Presentations](#d-presentations)
-  - [Reveal Options](#reveal-options)
-  - [Figure Options](#figure-options)
-  - [MathJax Equations](#mathjax-equations)
-  - [Document Dependencies](#document-dependencies)
-  - [Reveal Plugins](#reveal-plugins)
-  - [Advanced Customization](#advanced-customization)
-  - [Shared Options](#shared-options)
+- [Overview](#overview)
+- [Rendering](#rendering)
+- [Display Modes](#display-modes)
+- [Incremental Bullets](#incremental-bullets)
+- [Appearance and Style](#appearance-and-style)
+- [Slide Transitions](#slide-transitions)
+- [Slide Backgrounds](#slide-backgrounds)
+- [2-D Presentations](#2-d-presentations)
+- [Reveal Options](#reveal-options)
+- [Figure Options](#figure-options)
+- [MathJax Equations](#mathjax-equations)
+- [Document Dependencies](#document-dependencies)
+- [Reveal Version](#reveal-version)
+- [Reveal Plugins](#reveal-plugins)
+- [Advanced Customization](#advanced-customization)
+- [Shared Options](#shared-options)
 
 ## Overview
 
@@ -27,7 +28,7 @@ You can use this format in R Markdown documents by installing this
 package as follows:
 
 ``` r
-install.packages("revealjg", type = "source")
+remotes::installgithub("jonathan-g/revealjg")
 ```
 
 To create a [reveal.js](http://lab.hakim.se/reveal-js/#/) presentation
@@ -43,28 +44,28 @@ For example here’s a simple slide show:
     date: March 22, 2005
     output: revealjg::revealjs_presentation
     ---
-    
+
     # In the morning
-    
+
     ## Getting up
-    
+
     - Turn off alarm
     - Get out of bed
-    
+
     ## Breakfast
-    
+
     - Eat eggs
     - Drink coffee
-    
+
     # In the evening
-    
+
     ## Dinner
-    
+
     - Eat spaghetti
     - Drink wine
-    
+
     ## Going to sleep
-    
+
     - Get in bed
     - Count sheep
 
@@ -85,9 +86,9 @@ document and place the rendered `HTML` file in the same directory as the
 source file, with the same name.
 
 Note: Unlike the the other slideshow outputs, the slideshow viewer popup
-from RStudio will be blank, to view the slide show click the `open in
-browser` button, and the slide show will render in your default web
-browser.
+from RStudio will be blank, to view the slide show click the
+`open in browser` button, and the slide show will render in your default
+web browser.
 
 ### R Console
 
@@ -116,9 +117,9 @@ Rscript -e "rmarkdown::render('my_reveal_presentation.Rmd')"
 The following single character keyboard shortcuts enable alternate
 display modes:
 
-  - `'f'` enable fullscreen mode
+- `'f'` enable fullscreen mode
 
-  - `'o'` enable overview mode
+- `'o'` enable overview mode
 
 Pressing `Esc` exits all of these modes.
 
@@ -143,23 +144,22 @@ others you can use this syntax:
 There are several options that control the appearance of revealjs
 presentations:
 
-  - `theme` specifies the theme to use for the presentation (available
-    themes are “default”, “simple”, “sky”, “beige”, “serif”,
-    “solarized”, “blood”, “moon”, “night”, “black”, “league” or
-    “white”).
+- `theme` specifies the theme to use for the presentation (available
+  themes are “default”, “simple”, “sky”, “beige”, “serif”, “solarized”,
+  “blood”, “moon”, “night”, “black”, “league” or “white”).
 
-  - `highlight` specifies the syntax highlighting style. Supported
-    styles include “default”, “tango”, “pygments”, “kate”, “monochrome”,
-    “espresso”, “zenburn”, and “haddock”. Pass null to prevent syntax
-    highlighting.
+- `highlight` specifies the syntax highlighting style. Supported styles
+  include “default”, “tango”, “pygments”, “kate”, “monochrome”,
+  “espresso”, “zenburn”, and “haddock”. Pass null to prevent syntax
+  highlighting.
 
-  - `center` specifies whether you want to vertically center content on
-    slides (this defaults to false).
+- `center` specifies whether you want to vertically center content on
+  slides (this defaults to false).
 
-  - `smart` indicates whether to produce typographically correct output,
-    converting straight quotes to curly quotes, `---` to em-dashes, `--`
-    to en-dashes, and `...` to ellipses. Note that `smart` is enabled by
-    default.
+- `smart` indicates whether to produce typographically correct output,
+  converting straight quotes to curly quotes, `---` to em-dashes, `--`
+  to en-dashes, and `...` to ellipses. Note that `smart` is enabled by
+  default.
 
 For example:
 
@@ -176,13 +176,13 @@ For example:
 You can use the `transition` and `background_transition` options to
 specify the global default slide transition style:
 
-  - `transition` specifies the visual effect when moving between slides.
-    Available transitions are “default”, “fade”, “slide”, “convex”,
-    “concave”, “zoom” or “none”.
+- `transition` specifies the visual effect when moving between slides.
+  Available transitions are “default”, “fade”, “slide”, “convex”,
+  “concave”, “zoom” or “none”.
 
-  - `background_transition` specifies the background transition effect
-    when moving between full page slides. Available transitions are
-    “default”, “fade”, “slide”, “convex”, “concave”, “zoom” or “none”.
+- `background_transition` specifies the background transition effect
+  when moving between full page slides. Available transitions are
+  “default”, “fade”, “slide”, “convex”, “concave”, “zoom” or “none”.
 
 For example:
 
@@ -196,14 +196,14 @@ You can override the global transition for a specific slide by using the
 data-transition attribute, for example:
 
     ## Use a zoom transition {data-transition="zoom"}
-    
+
     ## Use a faster speed {data-transition-speed="fast"}
 
 You can also use different in and out transitions for the same slide,
 for example:
 
     ## Fade in, Slide out {data-transition="slide-in fade-out"}
-    
+
     ## Slide in, Fade out {data-transition="fade-in slide-out"}
 
 ## Slide Backgrounds
@@ -216,11 +216,11 @@ backgrounds are supported: color, image, video and iframe. Below are a
 few examples.
 
     ## CSS color background {data-background=#ff0000}
-    
+
     ## Full size image background {data-background="background.jpeg"}
-    
+
     ## Video background {data-background-video="background.mp4"}
-    
+
     ## Embed a web page as a background {data-background-iframe="https://example.com"}
 
 Backgrounds transition using a fade animation by default. This can be
@@ -238,11 +238,11 @@ headers building horizontally and level 2 headers building vertically.
 For example:
 
     # Horizontal Slide 1
-    
+
     ## Vertical Slide 1
-    
+
     ## Vertical Slide 2
-    
+
     # Horizontal Slide 2
 
 With this layout horizontal navigation will proceed directly from
@@ -273,15 +273,15 @@ here: <https://github.com/hakimel/reveal.js#configuration>.
 There are a number of options that affect the output of figures within
 reveal.js presentations:
 
-  - `fig_width` and `fig_height` can be used to control the default
-    figure width and height (7x5 is used by default)
+- `fig_width` and `fig_height` can be used to control the default figure
+  width and height (7x5 is used by default)
 
-  - `fig_retina` Specifies the scaling to perform for retina displays
-    (defaults to 2, which currently works for all widely used retina
-    displays). Note that this only takes effect if you are using knitr
-    \>= 1.5.21. Set to `null` to prevent retina scaling.
+- `fig_retina` Specifies the scaling to perform for retina displays
+  (defaults to 2, which currently works for all widely used retina
+  displays). Note that this only takes effect if you are using knitr \>=
+  1.5.21. Set to `null` to prevent retina scaling.
 
-  - `fig_caption` controls whether figures are rendered with captions
+- `fig_caption` controls whether figures are rendered with captions
 
 For example:
 
@@ -300,15 +300,15 @@ By default [MathJax](http://www.mathjax.org/) scripts are included in
 reveal.js presentations for rendering LaTeX and MathML equations. You
 can use the `mathjax` option to control how MathJax is included:
 
-  - Specify “default” to use an https URL from the official MathJax CDN.
+- Specify “default” to use an https URL from the official MathJax CDN.
 
-  - Specify “local” to use a local version of MathJax (which is copied
-    into the output directory). Note that when using “local” you also
-    need to set the `self_contained` option to false.
+- Specify “local” to use a local version of MathJax (which is copied
+  into the output directory). Note that when using “local” you also need
+  to set the `self_contained` option to false.
 
-  - Specify an alternate URL to load MathJax from another location.
+- Specify an alternate URL to load MathJax from another location.
 
-  - Specify null to exclude MathJax entirely.
+- Specify null to exclude MathJax entirely.
 
 For example, to use a local copy of MathJax:
 
@@ -375,18 +375,36 @@ this, for example:
         lib_dir: libs
     ---
 
+## Reveal Version
+
+`Reveal.js` underwent a serious refactoring between major versions 4 and
+5, so `revealjg` includes an option of specifying the `reveal.js`
+version to use. This affects which html template pandoc uses to render
+the slides and it affects the directory structure for finding `.css` and
+`.js` files in the `reveal.js` directory.
+
+By default, `revealjg` uses `reveal.js` version 5.2.1.
+
+    ---
+    title: "Habits"
+    output:
+      revealjg::revealjs_presentation:
+        reveal_version: "5.2.1"
+        self_contained: false
+        lib_dir: libs
+    ---
+
 ## Reveal Plugins
 
 You can enable various reveal.js plugins using the `reveal_plugins`
 option. Plugins currently supported include:
 
-| Plugin                                                                             | Description                                                                         |
-| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [notes](https://github.com/hakimel/reveal.js/#speaker-notes)                       | Present per-slide notes in a separate browser window.                               |
-| [zoom](http://lab.hakim.se/zoom-js/)                                               | Zoom in and out of selected content with Alt+Click.                                 |
+| Plugin | Description |
+|----|----|
+| [notes](https://github.com/hakimel/reveal.js/#speaker-notes) | Present per-slide notes in a separate browser window. |
+| [zoom](http://lab.hakim.se/zoom-js/) | Zoom in and out of selected content with Alt+Click. |
 | [search](https://github.com/hakimel/reveal.js/blob/master/plugin/search/search.js) | Find a text string anywhere in the slides and show the next occurrence to the user. |
-| [chalkboard](https://github.com/rajgoel/reveal.js-plugins/tree/master/chalkboard)  | Include handwritten notes within a presentation.                                    |
-| [menu](https://github.com/denehyg/reveal.js-menu)                                  | Include a navigation menu within a presentation.                                    |
+| [chalkboard](https://github.com/rajgoel/reveal.js-plugins/tree/master/chalkboard) | Include handwritten notes within a presentation. |
 
 Note that the use of plugins requires that the `self_contained` option
 be set to false. For example, this presentation includes both the
