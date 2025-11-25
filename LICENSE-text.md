@@ -1,0 +1,4 @@
+# License
+
+    YEAR: 2015-2025
+    COPYRIGHT HOLDER: Hakim El Hattab, RStudio, Inc., and Jonathan Gilligan
