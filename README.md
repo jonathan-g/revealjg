@@ -25,6 +25,10 @@ R Markdown Format for reveal.js Presentations
 
 <!-- badges: start -->
 
+![GitHub R package
+version](https://img.shields.io/github/r-package/v/jonathan-g/revealjg)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonathan-g/revealjg/actions/workflows/R-CMD-check.yaml)
