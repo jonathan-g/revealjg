@@ -21,7 +21,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jonathan-g/revealjg/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jonathan-g/revealjg/blob/rel-1.0.0/DESCRIPTION)
 
 El Hattab H, Allaire J, Gilligan J (2025). *revealjg: R Markdown Format
 for 'reveal.js' Presentations*. R package version 1.0.0,
